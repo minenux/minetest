@@ -1141,9 +1141,9 @@ video::IImage * Align2Npot2(video::IImage * image,
 	// Only GLES2 is trusted to correctly report npot support
 	// Note: we cache the boolean result. GL context will never change on Android.
 	static const bool hasNPotSupport = get_GL_major_version() > 1 &&
-		glGetString(GL_EXTENSIONS) && 
+		glGetString(GL_EXTENSIONS) &&
 		strstr(glGetString(GL_EXTENSIONS), "GL_OES_texture_npot");
-	
+
 	if (hasNPotSupport)
 		return image;
 
