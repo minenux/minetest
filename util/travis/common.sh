@@ -51,4 +51,3 @@ needs_compile() {
 	fi
 	git diff --name-only $RANGE -- | egrep -q "^($TRIGGER_COMPILE_PATHS)"
 }
-
