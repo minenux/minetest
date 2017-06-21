@@ -74,15 +74,10 @@ struct ValueSpec {
 };
 
 struct SettingsEntry {
-	SettingsEntry() :
-		group(NULL),
-		is_group(false)
-	{}
+	SettingsEntry() {}
 
 	SettingsEntry(const std::string &value_) :
-		value(value_),
-		group(NULL),
-		is_group(false)
+		value(value_)
 	{}
 
 	SettingsEntry(Settings *group_) :
@@ -90,9 +85,9 @@ struct SettingsEntry {
 		is_group(true)
 	{}
 
-	std::string value;
-	Settings *group;
-	bool is_group;
+	std::string value = "";
+	Settings *group = nullptr;
+	bool is_group = false;
 };
 
 typedef UNORDERED_MAP<std::string, SettingsEntry> SettingEntries;

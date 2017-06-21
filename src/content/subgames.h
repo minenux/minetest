@@ -26,8 +26,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 class Settings;
 
-#define WORLDNAME_BLACKLISTED_CHARS "/\\"
-
 struct SubgameSpec
 {
 	std::string id;

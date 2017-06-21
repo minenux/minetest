@@ -203,7 +203,7 @@ public:
 		deleted until this is 0 to keep the id preserved for the right
 		object.
 	*/
-	u16 m_known_by_count;
+	u16 m_known_by_count = 0;
 
 	/*
 		- Whether this object is to be removed when nobody knows about
@@ -222,7 +222,7 @@ public:
 		If this is set alongside with m_pending_removal, removal takes
 		priority.
 	*/
-	bool m_pending_deactivation;
+	bool m_pending_deactivation = false;
 
 	/*
 		A getter that unifies the above to answer the question:
@@ -234,12 +234,12 @@ public:
 	/*
 		Whether the object's static data has been stored to a block
 	*/
-	bool m_static_exists;
+	bool m_static_exists = false;
 	/*
 		The block from which the object was loaded from, and in which
 		a copy of the static data resides.
 	*/
-	v3s16 m_static_block;
+	v3s16 m_static_block = v3s16(1337,1337,1337);
 
 	/*
 		Queue of messages to be sent to the client

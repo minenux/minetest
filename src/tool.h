@@ -32,10 +32,7 @@ struct ToolGroupCap
 	int maxlevel;
 	int uses;
 
-	ToolGroupCap():
-		maxlevel(1),
-		uses(20)
-	{}
+	ToolGroupCap() {}
 
 	bool getTime(int rating, float *time) const
 	{
@@ -119,15 +116,11 @@ HitParams getHitParams(const ItemGroupList &armor_groups,
 
 struct PunchDamageResult
 {
-	bool did_punch;
-	int damage;
-	int wear;
+	bool did_punch = false;
+	int damage = 0;
+	int wear = 0;
 
-	PunchDamageResult():
-		did_punch(false),
-		damage(0),
-		wear(0)
-	{}
+	PunchDamageResult() {}
 };
 
 struct ItemStack;
