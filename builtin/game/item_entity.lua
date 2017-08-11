@@ -99,8 +99,8 @@ core.register_entity(":__builtin:item", {
 			self.itemstring = staticdata
 		end
 		self.object:set_armor_groups({immortal = 1})
-		self.object:setvelocity({x = 0, y = 2, z = 0})
-		self.object:setacceleration({x = 0, y = -10, z = 0})
+		self.object:set_velocity({x = 0, y = 2, z = 0})
+		self.object:set_acceleration({x = 0, y = -10, z = 0})
 		self:set_item(self.itemstring)
 	end,
 
@@ -174,8 +174,16 @@ core.register_entity(":__builtin:item", {
 		local p = self.object:getpos()
 		p.y = p.y - 0.5
 		local node = core.get_node_or_nil(p)
-		-- Delete in 'ignore' nodes
-		if node and node.name == "ignore" then
+		local in_unloaded = not node
+		if in_unloaded then
+			-- Don't infinetly fall into unloaded map
+			self.object:set_velocity({x = 0, y = 0, z = 0})
+			self.object:set_acceleration({x = 0, y = 0, z = 0})
+			self.physical_state = false
+			self.object:set_properties({physical = false})
+			return
+		elseif node.name == "ignore" then
+			-- Delete 'ignore' nodes
 			self.itemstring = ""
 			self.object:remove()
 			return
@@ -183,9 +191,10 @@ core.register_entity(":__builtin:item", {
 
 		-- If node is nil (unloaded area), or node is not registered, or node is
 		-- walkably solid and item is resting on nodebox
-		local v = self.object:getvelocity()
-		if not node or not core.registered_nodes[node.name] or
-				core.registered_nodes[node.name].walkable and v.y == 0 then
+		local v  = self.object:getvelocity()
+		local nn = node.name
+		if not core.registered_nodes[nn] or (core.registered_nodes[nn].walkable and
+				core.get_item_group(nn, "slippery") == 0) and v.y == 0 then
 			if self.physical_state then
 				local own_stack = ItemStack(self.object:get_luaentity().itemstring)
 				-- Merge with close entities of the same item
@@ -198,17 +207,28 @@ core.register_entity(":__builtin:item", {
 						end
 					end
 				end
-				self.object:setvelocity({x = 0, y = 0, z = 0})
-				self.object:setacceleration({x = 0, y = 0, z = 0})
+				self.object:set_velocity({x = 0, y = 0, z = 0})
+				self.object:set_acceleration({x = 0, y = 0, z = 0})
 				self.physical_state = false
 				self.object:set_properties({physical = false})
 			end
 		else
 			if not self.physical_state then
-				self.object:setvelocity({x = 0, y = 0, z = 0})
-				self.object:setacceleration({x = 0, y = -10, z = 0})
+				self.object:set_velocity({x = 0, y = 0, z = 0})
+				self.object:set_acceleration({x = 0, y = -10, z = 0})
 				self.physical_state = true
 				self.object:set_properties({physical = true})
+			elseif minetest.get_item_group(nn, "slippery") ~= 0 then
+				if math.abs(v.x) < 0.2 and math.abs(v.z) < 0.2 then
+					self.object:set_velocity({x = 0, y = 0, z = 0})
+					self.object:set_acceleration({x = 0, y = 0, z = 0})
+					self.physical_state = false
+					self.object:set_properties({
+						physical = false
+					})
+				else
+					self.object:set_acceleration({x = -v.x, y = -10, z = -v.z})
+				end
 			end
 		end
 	end,

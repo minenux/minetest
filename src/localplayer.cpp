@@ -518,7 +518,7 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d)
 	move(dtime, env, pos_max_d, NULL);
 }
 
-void LocalPlayer::applyControl(float dtime)
+void LocalPlayer::applyControl(float dtime, ClientEnvironment *env)
 {
 	// Clear stuff
 	swimming_vertical = false;
@@ -736,8 +736,8 @@ void LocalPlayer::applyControl(float dtime)
 		incH = incV = movement_acceleration_default * BS * dtime;
 
 	float slip_factor = 1.0f;
-	// if (!free_move)
-	// 	slip_factor = getSlipFactor(env, speedH);
+	if (!free_move)
+		slip_factor = getSlipFactor(env, speedH);
 
 	// Don't sink when swimming in pitch mode
 	if (pitch_move && in_liquid) {
