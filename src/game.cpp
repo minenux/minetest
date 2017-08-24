@@ -1148,6 +1148,7 @@ struct GameRunData {
 	bool digging;
 	bool ldown_for_dig;
 	bool dig_instantly;
+	bool digging_blocked;
 	bool left_punch;
 	bool update_wielded_item_trigger;
 	bool reset_jump_timer;
@@ -3586,6 +3587,11 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 		hud->updateSelectionMesh(camera_offset);
 	}
 
+	if (runData.digging_blocked && !isLeftPressed()) {
+		// allow digging again if button is not pressed
+		runData.digging_blocked = false;
+	}
+
 	/*
 		Stop digging when
 		- releasing left mouse button
@@ -3630,7 +3636,8 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 
 	soundmaker->m_player_leftpunch_sound.name = "";
 
-	if (isRightPressed())
+	// Prepare for repeating, unless we're not supposed to
+	if (isRightPressed() && !g_settings->getBool("safe_dig_and_place"))
 		runData.repeat_rightclick_timer += dtime;
 	else
 		runData.repeat_rightclick_timer = 0;
@@ -3795,6 +3802,7 @@ void Game::handlePointingAtNode(const PointedThing &pointed,
 	ClientMap &map = client->getEnv().getClientMap();
 
 	if (runData.nodig_delay_timer <= 0.0 && isLeftPressed()
+			&& !runData.digging_blocked
 			&& client->checkPrivilege("interact")) {
 		handleDigging(pointed, nodepos, playeritem_toolcap, dtime);
 	}
@@ -4019,6 +4027,9 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 
 		runData.dig_time = 0;
 		runData.digging = false;
+		// we successfully dug, now block it from repeating if we want to be safe
+		if (g_settings->getBool("safe_dig_and_place"))
+			runData.digging_blocked = true;
 
 		runData.nodig_delay_timer =
 				runData.dig_time_complete / (float)crack_animation_length;
