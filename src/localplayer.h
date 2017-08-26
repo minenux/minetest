@@ -62,6 +62,7 @@ public:
 	bool is_climbing = false;
 	bool swimming_vertical = false;
 	bool swimming_pitch = false;
+	bool is_slipping = false;
 
 	float physics_override_speed = 1.0f;
 	float physics_override_jump = 1.0f;
@@ -146,6 +147,7 @@ private:
 	void accelerate(const v3f &target_speed, const f32 max_increase_H,
 			const f32 max_increase_V, const bool use_pitch);
 	bool updateSneakNode(Map *map, const v3f &position, const v3f &sneak_max);
+	float getSlipFactor(Environment *env, const v3f &speedH);
 
 	v3f m_position;
 	v3s16 m_standing_node;

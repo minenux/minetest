@@ -1124,3 +1124,52 @@ void LocalPlayer::old_move(f32 dtime, Environment *env, f32 pos_max_d,
 		m_can_jump = false;
 	}
 }
+
+float LocalPlayer::getSlipFactor(Environment *env, const v3f &speedH)
+{
+
+	if (!touching_ground)
+		return 1.0f;
+
+	float slip_factor = 1.0f;
+	// Slip on slippery nodes
+	const INodeDefManager *nodemgr = env->getGameDef()->ndef();
+	Map *map = &env->getMap();
+	const ContentFeatures &f = nodemgr->get(map->getNodeNoEx(
+			floatToInt(getPosition() - v3f(0, 0.05f * BS, 0), BS)));
+	int slippery = 0;
+	if (f.walkable) {
+		slippery = itemgroup_get(f.groups, "slippery");
+	} else if (is_slipping) {
+		// slipping over an edge? Check surroundings for slippery nodes
+		slippery = 2 << 16; // guard value, bigger than all realistic ones
+		for (int z = 0; z <= 1; z++) {
+			for (int x = 0; x <= 1; x++) {
+				// this should cover all nodes surrounding player position
+				v3f offset((x - 0.5f) * BS, 0.05f * BS, (z - 0.5f) * BS);
+				const ContentFeatures &f2 = nodemgr->get(map->getNodeNoEx(
+						floatToInt(getPosition() - offset, BS)));
+				if (f2.walkable) {
+					// find least slippery node we might be standing on
+					int s = itemgroup_get(f2.groups, "slippery");
+					if (s < slippery)
+						slippery = s;
+				}
+			}
+		}
+		// without any hits, ignore slippery
+		if (slippery >= (2 << 16))
+			slippery = 0;
+	}
+	if (slippery >= 1) {
+		if (speedH == v3f(0.0f)) {
+			slippery = slippery * 2;
+		}
+		slip_factor = core::clamp(1.0f / (slippery + 1), 0.001f, 1.0f);
+		is_slipping = true;
+	} else {
+		// remember this to avoid checking the edge case above too often
+		is_slipping = false;
+	}
+	return slip_factor;
+}
