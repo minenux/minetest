@@ -87,6 +87,7 @@ public:
 	NoiseParams np;
 	std::vector<content_t> c_spawnby;
 	s16 nspawnby;
+	s16 place_offset_y = 0;
 
 	UNORDERED_SET<u8> biomes;
 	//std::list<CutoffData> cutoffs;
@@ -113,7 +114,7 @@ public:
 	virtual int getHeight();
 
 	Rotation rotation;
-	Schematic *schematic;
+	Schematic *schematic = nullptr;
 };
 
 
