@@ -260,7 +260,7 @@ void intlGUIEditBox::setTextAlignment(EGUI_ALIGNMENT horizontal, EGUI_ALIGNMENT 
 //! called if an event happened.
 bool intlGUIEditBox::OnEvent(const SEvent& event)
 {
-	if (IsEnabled && m_writable)
+	if (IsEnabled)
 	{
 
 		switch(event.EventType)
@@ -782,7 +782,7 @@ void intlGUIEditBox::draw()
 
 	if (Border)
 	{
-		if (m_writable)	{
+		if (m_writable) {
 			skin->draw3DSunkenPane(this, skin->getColor(EGDC_WINDOW),
 				false, true, FrameRect, &AbsoluteClippingRect);
 		}
@@ -947,8 +947,7 @@ void intlGUIEditBox::draw()
 			font->getKerningWidth(L"_", CursorPos-startPos > 0 ? &((*txtLine)[CursorPos-startPos-1]) : 0);
 
 		if (m_writable)	{
-			if (focus && (porting::getTimeMs() - BlinkStartTime) % 700 < 350)
-			{
+			if (focus && (porting::getTimeMs() - BlinkStartTime) % 700 < 350) {
 				setTextRect(cursorLine);
 				CurrentTextRect.UpperLeftCorner.X += charcursorpos;
 
@@ -1091,6 +1090,14 @@ bool intlGUIEditBox::processMouse(const SEvent& event)
 				return true;
 			}
 		}
+		break;
+	case EMIE_MOUSE_WHEEL:
+		if (m_vscrollbar) {
+			s32 pos = m_vscrollbar->getPos();
+			s32 step = m_vscrollbar->getSmallStep();
+			m_vscrollbar->setPos(pos - event.MouseInput.Wheel * step);
+		}
+		break;
 	default:
 		break;
 	}
@@ -1439,9 +1446,8 @@ void intlGUIEditBox::calculateScrollPos()
 		VScrollPos += CurrentTextRect.UpperLeftCorner.Y - FrameRect.UpperLeftCorner.Y; // scrolling upwards
 
 	// todo: adjust scrollbar
-	if (m_vscrollbar) {
+	if (m_vscrollbar)
 		m_vscrollbar->setPos(VScrollPos);
-	}	
 }
 
 //! set text markers
@@ -1473,20 +1479,31 @@ void intlGUIEditBox::sendGuiEvent(EGUI_EVENT_TYPE type)
 //! Create a vertical scrollbar
 void intlGUIEditBox::createVScrollBar()
 {
+	s32 fontHeight = 1;
+
+	if (OverrideFont) {
+		fontHeight = OverrideFont->getDimension(L"").Height;
+	} else {
+		if (IGUISkin* skin = Environment->getSkin()) {
+			if (IGUIFont* font = skin->getFont()) {
+				fontHeight = font->getDimension(L"").Height;
+			}
+		}
+	}
+
 	irr::core::rect<s32> scrollbarrect = FrameRect;
 	scrollbarrect.UpperLeftCorner.X += FrameRect.getWidth() - m_scrollbar_width;
 	m_vscrollbar = Environment->addScrollBar(false, scrollbarrect, getParent(), getID());
 	m_vscrollbar->setVisible(false);
-	m_vscrollbar->setSmallStep(1);
-	m_vscrollbar->setLargeStep(1);
+	m_vscrollbar->setSmallStep(3 * fontHeight);
+	m_vscrollbar->setLargeStep(10 * fontHeight);
 }
 
 //! Update the vertical scrollbar (visibilty & scroll position)
 void intlGUIEditBox::updateVScrollBar()
 {
-	if (!m_vscrollbar) {
+	if (!m_vscrollbar)
 		return;
-	}
 
 	// OnScrollBarChanged(...)
 	if (m_vscrollbar->getPos() != VScrollPos) {
