@@ -68,6 +68,7 @@ public:
 	s16 y_max;
 	float heat_point;
 	float humidity_point;
+	s16 vertical_blend;
 
 	virtual void resolveNodeNames();
 };
