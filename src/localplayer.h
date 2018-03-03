@@ -62,7 +62,6 @@ public:
 	bool is_climbing = false;
 	bool swimming_vertical = false;
 	bool swimming_pitch = false;
-	bool is_slipping = false;
 
 	float physics_override_speed = 1.0f;
 	float physics_override_jump = 1.0f;
