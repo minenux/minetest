@@ -138,8 +138,8 @@ Biome *BiomeManager::getBiomeFromNoiseOriginal(float heat, float humidity, s16 y
 		}
 	}
 
-	mysrand(y + (heat - humidity) * 2);
-	if (biome_closest_blend &&
+	mysrand(y + (heat + humidity) / 2);
+	if (biome_closest_blend && dist_min_blend <= dist_min &&
 			myrand_range(0, biome_closest_blend->vertical_blend) >=
 			y - biome_closest_blend->y_max)
 		return biome_closest_blend;
@@ -294,12 +294,12 @@ Biome *BiomeGenOriginal::calcBiomeFromNoise(float heat, float humidity, s16 y) c
 	// and create larger scale blending patterns.
 	mysrand(y + (heat - humidity) * 2);
 
-	if (biome_closest_blend &&
+	if (biome_closest_blend && dist_min_blend <= dist_min &&
 			myrand_range(0, biome_closest_blend->vertical_blend) >=
 			y - biome_closest_blend->y_max)
 		return biome_closest_blend;
 
-	return (biome_closest) ? biome_closest : (Biome *)m_bmgr->getRaw(BIOME_NONE);	
+	return (biome_closest) ? biome_closest : (Biome *)m_bmgr->getRaw(BIOME_NONE);
 }
 
 
