@@ -72,8 +72,6 @@ private:
 
 	static int l_get_worlds(lua_State *L);
 
-	static int l_get_games(lua_State *L);
-
 	static int l_get_mapgen_names(lua_State *L);
 
 	static int l_get_favorites(lua_State *L);
@@ -81,6 +79,12 @@ private:
 	static int l_delete_favorite(lua_State *L);
 
 	static int l_gettext(lua_State *L);
+
+	//packages
+
+	static int l_get_games(lua_State *L);
+
+	static int l_get_mod_info(lua_State *L);
 
 	//gui
 

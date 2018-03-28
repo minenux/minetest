@@ -37,13 +37,16 @@ struct ModSpec
 {
 	std::string name;
 	std::string path;
+	std::string desc;
+
 	//if normal mod:
 	UNORDERED_SET<std::string> depends;
 	UNORDERED_SET<std::string> optdepends;
 	UNORDERED_SET<std::string> unsatisfied_depends;
 
-	bool part_of_modpack;
-	bool is_modpack;
+	bool part_of_modpack = false;
+	bool is_modpack = false;
+
 	// if modpack:
 	std::map<std::string,ModSpec> modpack_content;
 	ModSpec(const std::string &name_="", const std::string &path_=""):
