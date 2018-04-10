@@ -96,7 +96,16 @@
 #    type: bool
 # continuous_forward = false
 
-#    Enable Joysticks
+#    The length in pixels it takes for touch screen interaction to start.
+#    type: int min: 0 max: 100
+# touchscreen_threshold = 20
+
+#    (Android) Fixes the position of virtual joystick.
+#    If disabled, virtual joystick will center to first-touch's position.
+#    type: bool
+# fixed_virtual_joystick = false
+
+#    Enable joysticks
 #    type: bool
 # enable_joysticks = false
 
@@ -1875,3 +1884,4 @@
 #    so see a full list at https://content.minetest.net/help/content_flags/
 #    type: string
 # contentdb_flag_blacklist = nonfree, desktop_default
+
