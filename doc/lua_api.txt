@@ -52,21 +52,25 @@ Games are looked up from:
 * `$path_share/games/gameid/`
 * `$path_user/games/gameid/`
 
-where `gameid` is unique to each game.
+Where `gameid` is unique to each game.
 
-The game directory contains the file `game.conf`, which contains these fields:
+The game directory can contain the following files:
 
-    name = <Human-readable full name of the game>
-
-e.g.
-
-    name = Minetest
-
-The game directory can contain the file minetest.conf, which will be used
-to set default settings when running the particular game.
-It can also contain a settingtypes.txt in the same format as the one in builtin.
-This settingtypes.txt will be parsed by the menu and the settings will be displayed
-in the "Games" category in the settings tab.
+* `game.conf`, with the following keys:
+    * `name` - required, human readable name  e.g. `name = Minetest`
+    * `description` - Short description to be shown in the content tab
+    * `disallowed_mapgens = <comma-separated mapgens>`
+      e.g. `disallowed_mapgens = v5,v6,flat`
+      These mapgens are removed from the list of mapgens for the game.
+* `minetest.conf`:
+  Used to set default settings when running this game.
+* `settingtypes.txt`:
+  In the same format as the one in builtin.
+  This settingtypes.txt will be parsed by the menu and the settings will be
+  displayed in the "Games" category in the advanced settings tab.
+* If the game contains a folder called `textures` the server will load it as a
+  texturepack, overriding mod textures.
+  Any server texturepack will override mod textures and the game texturepack.
 
 ### Menu images
 
@@ -2246,7 +2250,11 @@ Helper functions
     * returns time with microsecond precision. May not return wall time.
 * `table.copy(table)`: returns a table
     * returns a deep copy of `table`
-* `minetest.pointed_thing_to_face_pos(placer, pointed_thing)`: returns a position
+* `table.insert_all(table, other_table)`:
+    * Appends all values in `other_table` to `table` - uses `#table + 1` to
+      find new indices.
+* `minetest.pointed_thing_to_face_pos(placer, pointed_thing)`: returns a
+  position.
     * returns the exact position on the surface of a pointed node
 
 `minetest` namespace reference

@@ -21,24 +21,24 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <fstream>
 #include <json/json.h>
 #include <algorithm>
-#include "mods.h"
+#include "content/mods.h"
 #include "filesys.h"
 #include "log.h"
-#include "subgame.h"
+#include "content/subgames.h"
 #include "settings.h"
 #include "convert_json.h"
 #include "exceptions.h"
 #include "porting.h"
 
-bool parseDependsString(std::string &dep,
-		std::unordered_set<char> &symbols)
+bool parseDependsString(std::string &dep, std::unordered_set<char> &symbols)
 {
 	dep = trim(dep);
 	symbols.clear();
 	size_t pos = dep.size();
-	while (pos > 0 && !string_allowed(dep.substr(pos-1, 1), MODNAME_ALLOWED_CHARS)) {
+	while (pos > 0 &&
+			!string_allowed(dep.substr(pos - 1, 1), MODNAME_ALLOWED_CHARS)) {
 		// last character is a symbol, not part of the modname
-		symbols.insert(dep[pos-1]);
+		symbols.insert(dep[pos - 1]);
 		--pos;
 	}
 	dep = trim(dep.substr(0, pos));
@@ -49,10 +49,13 @@ void parseModContents(ModSpec &spec)
 {
 	// NOTE: this function works in mutual recursion with getModsInPath
 	Settings info;
-	info.readConfigFile((spec.path+DIR_DELIM+"mod.conf").c_str());
+	info.readConfigFile((spec.path + DIR_DELIM + "mod.conf").c_str());
 
 	if (info.exists("name"))
 		spec.name = info.get("name");
+
+	if (info.exists("author"))
+		spec.author = info.get("author");
 
 	spec.depends.clear();
 	spec.optdepends.clear();
@@ -60,8 +63,8 @@ void parseModContents(ModSpec &spec)
 	spec.modpack_content.clear();
 
 	// Handle modpacks (defined by containing modpack.txt)
-	std::ifstream modpack_is((spec.path+DIR_DELIM+"modpack.txt").c_str());
-	if (modpack_is.good()) { // a modpack, recursively get the mods in it
+	std::ifstream modpack_is((spec.path + DIR_DELIM + "modpack.txt").c_str());
+	if (modpack_is.good()) {    // a modpack, recursively get the mods in it
 		modpack_is.close(); // We don't actually need the file
 		spec.is_modpack = true;
 		spec.modpack_content = getModsInPath(spec.path, true);
@@ -74,8 +77,10 @@ void parseModContents(ModSpec &spec)
 		if (info.exists("depends")) {
 			mod_conf_has_depends = true;
 			std::string dep = info.get("depends");
+			// clang-format off
 			dep.erase(std::remove_if(dep.begin(), dep.end(),
-					static_cast<int(*)(int)>(&std::isspace)), dep.end());
+					static_cast<int (*)(int)>(&std::isspace)), dep.end());
+			// clang-format on
 			for (const auto &dependency : str_split(dep, ',')) {
 				spec.depends.insert(dependency);
 			}
@@ -84,8 +89,10 @@ void parseModContents(ModSpec &spec)
 		if (info.exists("optional_depends")) {
 			mod_conf_has_depends = true;
 			std::string dep = info.get("optional_depends");
+			// clang-format off
 			dep.erase(std::remove_if(dep.begin(), dep.end(),
-					static_cast<int(*)(int)>(&std::isspace)), dep.end());
+					static_cast<int (*)(int)>(&std::isspace)), dep.end());
+			// clang-format on
 			for (const auto &dependency : str_split(dep, ',')) {
 				spec.optdepends.insert(dependency);
 			}
@@ -117,14 +124,16 @@ void parseModContents(ModSpec &spec)
 		if (info.exists("description")) {
 			spec.desc = info.get("description");
 		} else {
-			std::ifstream is((spec.path + DIR_DELIM + "description.txt").c_str());
+			std::ifstream is((spec.path + DIR_DELIM + "description.txt")
+							 .c_str());
 			spec.desc = std::string((std::istreambuf_iterator<char>(is)),
 					std::istreambuf_iterator<char>());
 		}
 	}
 }
 
-std::map<std::string, ModSpec> getModsInPath(std::string path, bool part_of_modpack)
+std::map<std::string, ModSpec> getModsInPath(
+		const std::string &path, bool part_of_modpack)
 {
 	// NOTE: this function works in mutual recursion with parseModContents
 
@@ -140,8 +149,10 @@ std::map<std::string, ModSpec> getModsInPath(std::string path, bool part_of_modp
 			continue;
 		std::string modpath = path + DIR_DELIM + modname;
 
-		ModSpec spec(modname, modpath);
-		spec.part_of_modpack = part_of_modpack;
+		modpath.clear();
+		modpath.append(path).append(DIR_DELIM).append(modname);
+
+		ModSpec spec(modname, modpath, part_of_modpack);
 		parseModContents(spec);
 		result.insert(std::make_pair(modname, spec));
 	}
@@ -159,10 +170,9 @@ std::vector<ModSpec> flattenMods(std::map<std::string, ModSpec> mods)
 		{
 			std::vector<ModSpec> content = flattenMods(mod.modpack_content);
 			result.reserve(result.size() + content.size());
-			result.insert(result.end(),content.begin(),content.end());
+			result.insert(result.end(), content.begin(), content.end());
 
-		}
-		else //not a modpack
+		} else // not a modpack
 		{
 			result.push_back(mod);
 		}
@@ -179,13 +189,11 @@ ModConfiguration::ModConfiguration(const std::string &worldpath):
 
 void ModConfiguration::printUnsatisfiedModsError() const
 {
-	for (std::vector<ModSpec>::const_iterator it = m_unsatisfied_mods.begin();
-		it != m_unsatisfied_mods.end(); ++it) {
-		ModSpec mod = *it;
-		errorstream << "mod \"" << mod.name << "\" has unsatisfied dependencies: ";
-		for (UNORDERED_SET<std::string>::iterator dep_it = mod.unsatisfied_depends.begin();
-			dep_it != mod.unsatisfied_depends.end(); ++dep_it)
-			errorstream << " \"" << *dep_it << "\"";
+	for (const ModSpec &mod : m_unsatisfied_mods) {
+		errorstream << "mod \"" << mod.name
+			    << "\" has unsatisfied dependencies: ";
+		for (const std::string &unsatisfied_depend : mod.unsatisfied_depends)
+			errorstream << " \"" << unsatisfied_depend << "\"";
 		errorstream << std::endl;
 	}
 }
@@ -200,12 +208,12 @@ void ModConfiguration::addMods(const std::vector<ModSpec> &new_mods)
 	// Maintain a map of all existing m_unsatisfied_mods.
 	// Keys are mod names and values are indices into m_unsatisfied_mods.
 	std::map<std::string, u32> existing_mods;
-	for(u32 i = 0; i < m_unsatisfied_mods.size(); ++i){
+	for (u32 i = 0; i < m_unsatisfied_mods.size(); ++i) {
 		existing_mods[m_unsatisfied_mods[i].name] = i;
 	}
 
 	// Add new mods
-	for(int want_from_modpack = 1; want_from_modpack >= 0; --want_from_modpack){
+	for (int want_from_modpack = 1; want_from_modpack >= 0; --want_from_modpack) {
 		// First iteration:
 		// Add all the mods that come from modpacks
 		// Second iteration:
@@ -222,15 +230,16 @@ void ModConfiguration::addMods(const std::vector<ModSpec> &new_mods)
 				// GOOD CASE: completely new mod.
 				m_unsatisfied_mods.push_back(mod);
 				existing_mods[mod.name] = m_unsatisfied_mods.size() - 1;
-			}
-			else if(seen_this_iteration.count(mod.name) == 0){
+			} else if (seen_this_iteration.count(mod.name) == 0) {
 				// BAD CASE: name conflict in different levels.
 				u32 oldindex = existing_mods[mod.name];
 				const ModSpec &oldmod = m_unsatisfied_mods[oldindex];
-				warningstream<<"Mod name conflict detected: \""
-					<<mod.name<<"\""<<std::endl
-					<<"Will not load: "<<oldmod.path<<std::endl
-					<<"Overridden by: "<<mod.path<<std::endl;
+				warningstream << "Mod name conflict detected: \""
+					      << mod.name << "\"" << std::endl
+					      << "Will not load: " << oldmod.path
+					      << std::endl
+					      << "Overridden by: " << mod.path
+					      << std::endl;
 				m_unsatisfied_mods[oldindex] = mod;
 
 				// If there was a "VERY BAD CASE" name conflict
@@ -241,10 +250,12 @@ void ModConfiguration::addMods(const std::vector<ModSpec> &new_mods)
 				// VERY BAD CASE: name conflict in the same level.
 				u32 oldindex = existing_mods[mod.name];
 				const ModSpec &oldmod = m_unsatisfied_mods[oldindex];
-				warningstream<<"Mod name conflict detected: \""
-					<<mod.name<<"\""<<std::endl
-					<<"Will not load: "<<oldmod.path<<std::endl
-					<<"Will not load: "<<mod.path<<std::endl;
+				warningstream << "Mod name conflict detected: \""
+					      << mod.name << "\"" << std::endl
+					      << "Will not load: " << oldmod.path
+					      << std::endl
+					      << "Will not load: " << mod.path
+					      << std::endl;
 				m_unsatisfied_mods[oldindex] = mod;
 				m_name_conflicts.insert(mod.name);
 			}
@@ -253,17 +264,16 @@ void ModConfiguration::addMods(const std::vector<ModSpec> &new_mods)
 	}
 }
 
-void ModConfiguration::addModsFormConfig(const std::string &settings_path, const std::set<std::string> &mods)
+void ModConfiguration::addModsFromConfig(
+		const std::string &settings_path, const std::set<std::string> &mods)
 {
 	Settings conf;
 	std::set<std::string> load_mod_names;
 
 	conf.readConfigFile(settings_path.c_str());
 	std::vector<std::string> names = conf.getNames();
-	for (std::vector<std::string>::iterator it = names.begin();
-		it != names.end(); ++it) {
-		std::string name = *it;
-		if (name.compare(0,9,"load_mod_")==0 && conf.getBool(name))
+	for (const std::string &name : names) {
+		if (name.compare(0, 9, "load_mod_") == 0 && conf.getBool(name))
 			load_mod_names.insert(name.substr(9));
 	}
 
@@ -273,7 +283,7 @@ void ModConfiguration::addModsFormConfig(const std::string &settings_path, const
 		std::vector<ModSpec> addon_mods_in_path = flattenMods(getModsInPath(*i));
 		for (std::vector<ModSpec>::const_iterator it = addon_mods_in_path.begin();
 				it != addon_mods_in_path.end(); ++it) {
-			const ModSpec& mod = *it;
+			const ModSpec &mod = *it;
 			if (load_mod_names.count(mod.name) != 0)
 				addon_mods.push_back(mod);
 			else
@@ -307,9 +317,11 @@ void ModConfiguration::checkConflictsAndDeps()
 	// report on name conflicts
 	if (!m_name_conflicts.empty()) {
 		std::string s = "Unresolved name conflicts for mods ";
-		for (UNORDERED_SET<std::string>::const_iterator it = m_name_conflicts.begin();
-			it != m_name_conflicts.end(); ++it) {
-			if (it != m_name_conflicts.begin()) s += ", ";
+		for (std::unordered_set<std::string>::const_iterator it =
+						m_name_conflicts.begin();
+				it != m_name_conflicts.end(); ++it) {
+			if (it != m_name_conflicts.begin())
+				s += ", ";
 			s += std::string("\"") + (*it) + "\"";
 		}
 		s += ".";
@@ -353,13 +365,12 @@ void ModConfiguration::resolveDependencies()
 
 	// Step 3: mods without unmet dependencies can be appended to
 	// the sorted list.
-	while(!satisfied.empty()){
+	while (!satisfied.empty()) {
 		ModSpec mod = satisfied.back();
 		m_sorted_mods.push_back(mod);
 		satisfied.pop_back();
-		for(std::list<ModSpec>::iterator it = unsatisfied.begin();
-				it != unsatisfied.end(); ){
-			ModSpec& mod2 = *it;
+		for (auto it = unsatisfied.begin(); it != unsatisfied.end();) {
+			ModSpec &mod2 = *it;
 			mod2.unsatisfied_depends.erase(mod.name);
 			if(mod2.unsatisfied_depends.empty()){
 				satisfied.push_back(mod2);
@@ -386,12 +397,12 @@ ServerModConfiguration::ServerModConfiguration(const std::string &worldpath):
 
 	// Load normal mods
 	std::string worldmt = worldpath + DIR_DELIM + "world.mt";
-	addModsFormConfig(worldmt, gamespec.addon_mods_paths);
+	addModsFromConfig(worldmt, gamespec.addon_mods_paths);
 }
 
 #ifndef SERVER
-ClientModConfiguration::ClientModConfiguration(const std::string &path):
-	ModConfiguration(path)
+ClientModConfiguration::ClientModConfiguration(const std::string &path) :
+		ModConfiguration(path)
 {
 	std::set<std::string> paths;
 	std::string path_user = porting::path_user + DIR_DELIM + "clientmods";
@@ -399,13 +410,11 @@ ClientModConfiguration::ClientModConfiguration(const std::string &path):
 	paths.insert(path_user);
 
 	std::string settings_path = path_user + DIR_DELIM + "mods.conf";
-	addModsFormConfig(settings_path, paths);
+	addModsFromConfig(settings_path, paths);
 }
 #endif
 
-ModMetadata::ModMetadata(const std::string &mod_name):
-	m_mod_name(mod_name),
-	m_modified(false)
+ModMetadata::ModMetadata(const std::string &mod_name) : m_mod_name(mod_name)
 {
 	m_stringvars.clear();
 }
@@ -426,23 +435,25 @@ bool ModMetadata::save(const std::string &root_path)
 
 	if (!fs::PathExists(root_path)) {
 		if (!fs::CreateAllDirs(root_path)) {
-			errorstream << "ModMetadata[" << m_mod_name << "]: Unable to save. '"
-				<< root_path << "' tree cannot be created." << std::endl;
+			errorstream << "ModMetadata[" << m_mod_name
+				    << "]: Unable to save. '" << root_path
+				    << "' tree cannot be created." << std::endl;
 			return false;
 		}
 	} else if (!fs::IsDir(root_path)) {
 		errorstream << "ModMetadata[" << m_mod_name << "]: Unable to save. '"
-			<< root_path << "' is not a directory." << std::endl;
+			    << root_path << "' is not a directory." << std::endl;
 		return false;
 	}
 
-	bool w_ok = fs::safeWriteToFile(root_path + DIR_DELIM + m_mod_name,
-		Json::FastWriter().write(json));
+	bool w_ok = fs::safeWriteToFile(
+			root_path + DIR_DELIM + m_mod_name, Json::FastWriter().write(json));
 
 	if (w_ok) {
 		m_modified = false;
 	} else {
-		errorstream << "ModMetadata[" << m_mod_name << "]: failed write file." << std::endl;
+		errorstream << "ModMetadata[" << m_mod_name << "]: failed write file."
+			    << std::endl;
 	}
 	return w_ok;
 }
@@ -451,16 +462,23 @@ bool ModMetadata::load(const std::string &root_path)
 {
 	m_stringvars.clear();
 
-	std::ifstream is((root_path + DIR_DELIM + m_mod_name).c_str(), std::ios_base::binary);
+	std::ifstream is((root_path + DIR_DELIM + m_mod_name).c_str(),
+			std::ios_base::binary);
 	if (!is.good()) {
 		return false;
 	}
 
 	Json::Reader reader;
 	Json::Value root;
-	if (!reader.parse(is, root)) {
-		errorstream << "ModMetadata[" << m_mod_name << "]: failed read data "
-			"(Json decoding failure)." << std::endl;
+	Json::CharReaderBuilder builder;
+	builder.settings_["collectComments"] = false;
+	std::string errs;
+
+	if (!Json::parseFromStream(builder, is, &root, &errs)) {
+		errorstream << "ModMetadata[" << m_mod_name
+			    << "]: failed read data "
+			       "(Json decoding failure). Message: "
+			    << errs << std::endl;
 		return false;
 	}
 

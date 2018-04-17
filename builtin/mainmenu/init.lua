@@ -34,15 +34,15 @@ dofile(basepath .. DIR_DELIM .. "fstk" .. DIR_DELIM .. "dialog.lua")
 dofile(basepath .. DIR_DELIM .. "fstk" .. DIR_DELIM .. "tabview.lua")
 dofile(basepath .. DIR_DELIM .. "fstk" .. DIR_DELIM .. "ui.lua")
 dofile(menupath .. DIR_DELIM .. "common.lua")
-dofile(menupath .. DIR_DELIM .. "gamemgr.lua")
-dofile(menupath .. DIR_DELIM .. "modmgr.lua")
+dofile(menupath .. DIR_DELIM .. "pkgmgr.lua")
 dofile(menupath .. DIR_DELIM .. "textures.lua")
 
 dofile(menupath .. DIR_DELIM .. "dlg_config_world.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_settings_advanced.lua")
+dofile(menupath .. DIR_DELIM .. "dlg_contentstore.lua")
 if PLATFORM ~= "Android" then
 	dofile(menupath .. DIR_DELIM .. "dlg_create_world.lua")
-	dofile(menupath .. DIR_DELIM .. "dlg_delete_mod.lua")
+	dofile(menupath .. DIR_DELIM .. "dlg_delete_content.lua")
 	dofile(menupath .. DIR_DELIM .. "dlg_delete_world.lua")
 	dofile(menupath .. DIR_DELIM .. "dlg_rename_modpack.lua")
 end
@@ -50,14 +50,13 @@ end
 local tabs = {}
 
 tabs.settings = dofile(menupath .. DIR_DELIM .. "tab_settings.lua")
-tabs.mods = dofile(menupath .. DIR_DELIM .. "tab_mods.lua")
-tabs.credits = dofile(menupath .. DIR_DELIM .. "tab_credits.lua")
+tabs.content  = dofile(menupath .. DIR_DELIM .. "tab_content.lua")
+tabs.credits  = dofile(menupath .. DIR_DELIM .. "tab_credits.lua")
 if PLATFORM == "Android" then
 	tabs.simple_main = dofile(menupath .. DIR_DELIM .. "tab_simple_main.lua")
 else
 	tabs.local_game = dofile(menupath .. DIR_DELIM .. "tab_local.lua")
 	tabs.play_online = dofile(menupath .. DIR_DELIM .. "tab_online.lua")
-	tabs.texturepacks = dofile(menupath .. DIR_DELIM .. "tab_texturepacks.lua")
 end
 
 --------------------------------------------------------------------------------
@@ -130,16 +129,14 @@ local function init_globals()
 
 	if PLATFORM == "Android" then
 		tv_main:add(tabs.simple_main)
-		tv_main:add(tabs.settings)
 	else
 		tv_main:set_autosave_tab(true)
 		tv_main:add(tabs.local_game)
 		tv_main:add(tabs.play_online)
-		tv_main:add(tabs.settings)
-		tv_main:add(tabs.texturepacks)
 	end
 
-	tv_main:add(tabs.mods)
+	tv_main:add(tabs.content)
+	tv_main:add(tabs.settings)
 	tv_main:add(tabs.credits)
 
 	tv_main:set_global_event_handler(main_event_handler)

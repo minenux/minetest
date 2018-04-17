@@ -36,38 +36,38 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 struct ModSpec
 {
 	std::string name;
+	std::string author;
 	std::string path;
 	std::string desc;
 
-	//if normal mod:
-	UNORDERED_SET<std::string> depends;
-	UNORDERED_SET<std::string> optdepends;
-	UNORDERED_SET<std::string> unsatisfied_depends;
+	// if normal mod:
+	std::unordered_set<std::string> depends;
+	std::unordered_set<std::string> optdepends;
+	std::unordered_set<std::string> unsatisfied_depends;
 
 	bool part_of_modpack = false;
 	bool is_modpack = false;
 
 	// if modpack:
-	std::map<std::string,ModSpec> modpack_content;
-	ModSpec(const std::string &name_="", const std::string &path_=""):
-		name(name_),
-		path(path_),
-		depends(),
-		optdepends(),
-		unsatisfied_depends(),
-		part_of_modpack(false),
-		is_modpack(false),
-		modpack_content()
-	{}
+	std::map<std::string, ModSpec> modpack_content;
+	ModSpec(const std::string &name = "", const std::string &path = "") :
+			name(name), path(path)
+	{
+	}
+	ModSpec(const std::string &name, const std::string &path, bool part_of_modpack) :
+			name(name), path(path), part_of_modpack(part_of_modpack)
+	{
+	}
 };
 
 // Retrieves depends, optdepends, is_modpack and modpack_content
 void parseModContents(ModSpec &mod);
 
-std::map<std::string,ModSpec> getModsInPath(std::string path, bool part_of_modpack = false);
+std::map<std::string, ModSpec> getModsInPath(
+		const std::string &path, bool part_of_modpack = false);
 
 // replaces modpack Modspecs with their content
-std::vector<ModSpec> flattenMods(std::map<std::string,ModSpec> mods);
+std::vector<ModSpec> flattenMods(std::map<std::string, ModSpec> mods);
 
 // a ModConfiguration is a subset of installed mods, expected to have
 // all dependencies fullfilled, so it can be used as a list of mods to
@@ -76,15 +76,9 @@ class ModConfiguration
 {
 public:
 	// checks if all dependencies are fullfilled.
-	bool isConsistent() const
-	{
-		return m_unsatisfied_mods.empty();
-	}
+	bool isConsistent() const { return m_unsatisfied_mods.empty(); }
 
-	std::vector<ModSpec> getMods()
-	{
-		return m_sorted_mods;
-	}
+	const std::vector<ModSpec> &getMods() const { return m_sorted_mods; }
 
 	const std::vector<ModSpec> &getUnsatisfiedMods() const
 	{
@@ -102,9 +96,11 @@ protected:
 	// adds all mods in the set.
 	void addMods(const std::vector<ModSpec> &new_mods);
 
-	void addModsFormConfig(const std::string &settings_path, const std::set<std::string> &mods);
+	void addModsFromConfig(const std::string &settings_path,
+			const std::set<std::string> &mods);
 
 	void checkConflictsAndDeps();
+
 private:
 	// move mods from m_unsatisfied_mods to m_sorted_mods
 	// in an order that satisfies dependencies
@@ -131,37 +127,24 @@ private:
 	UNORDERED_SET<std::string> m_name_conflicts;
 
 	// Deleted default constructor
-	ModConfiguration() {}
-
+	ModConfiguration() = default;
 };
 
-class ServerModConfiguration: public ModConfiguration
+class ServerModConfiguration : public ModConfiguration
 {
 public:
-	ServerModConfiguration(const std::string &worldpath);
-
+	ServerModConfiguration(const std::string &path);
 };
 
 #ifndef SERVER
-class ClientModConfiguration: public ModConfiguration
+class ClientModConfiguration : public ModConfiguration
 {
 public:
 	ClientModConfiguration(const std::string &path);
 };
 #endif
 
-struct ModLicenseInfo {
-	int id;
-	std::string shortinfo;
-	std::string url;
-};
-
-struct ModAuthorInfo {
-	int id;
-	std::string username;
-};
-
-class ModMetadata: public Metadata
+class ModMetadata : public Metadata
 {
 public:
 	ModMetadata(const std::string &mod_name);
@@ -176,6 +159,7 @@ public:
 	const std::string &getModName() const { return m_mod_name; }
 
 	virtual bool setString(const std::string &name, const std::string &var);
+
 private:
 	std::string m_mod_name;
 	bool m_modified;

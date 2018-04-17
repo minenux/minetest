@@ -20,6 +20,35 @@ local function create_world_formspec(dialogdata)
 
 	local current_seed = core.settings:get("fixed_map_seed") or ""
 	local current_mg   = core.settings:get("mg_name")
+	local gameid = core.settings:get("menu_last_game")
+
+	local game, gameidx = nil , 0
+	if gameid ~= nil then
+		game, gameidx = pkgmgr.find_by_gameid(gameid)
+
+		if gameidx == nil then
+			gameidx = 0
+		end
+	end
+
+	local game_by_gameidx = core.get_game(gameidx)
+	if game_by_gameidx ~= nil then
+		local gamepath = game_by_gameidx.path
+		local gameconfig = Settings(gamepath.."/game.conf")
+
+		local disallowed_mapgens = (gameconfig:get("disallowed_mapgens") or ""):split()
+		for key, value in pairs(disallowed_mapgens) do
+			disallowed_mapgens[key] = value:trim()
+		end
+
+		if disallowed_mapgens then
+			for i = #mapgens, 1, -1 do
+				if table.indexof(disallowed_mapgens, mapgens[i]) > 0 then
+					table.remove(mapgens, i)
+				end
+			end
+		end
+	end
 
 	local mglist = ""
 	local selindex = 1
@@ -32,13 +61,13 @@ local function create_world_formspec(dialogdata)
 		mglist = mglist .. v .. ","
 	end
 	mglist = mglist:sub(1, -2)
-	
+
 	local gameid = core.settings:get("menu_last_game")
-	
+
 	local game, gameidx = nil , 0
 	if gameid ~= nil then
 		game, gameidx = gamemgr.find_by_gameid(gameid)
-		
+
 		if gameidx == nil then
 			gameidx = 0
 		end
@@ -57,17 +86,17 @@ local function create_world_formspec(dialogdata)
 		"dropdown[4.2,2;6.3;dd_mapgen;" .. mglist .. ";" .. selindex .. "]" ..
 
 		"label[2,3;" .. fgettext("Game") .. "]"..
-		"textlist[4.2,3;5.8,2.3;games;" .. gamemgr.gamelist() ..
+		"textlist[4.2,3;5.8,2.3;games;" .. pkgmgr.gamelist() ..
 		";" .. gameidx .. ";true]" ..
 
 		"button[3.25,6;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
 		"button[5.75,6;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
-		
-	if #gamemgr.games == 0 then
+
+	if #pkgmgr.games == 0 then
 		retval = retval .. "box[2,4;8,1;#ff8800]label[2.25,4;" ..
 				fgettext("You have no subgames installed.") .. "]label[2.25,4.4;" ..
 				fgettext("Download one from minetest.net") .. "]"
-	elseif #gamemgr.games == 1 and gamemgr.games[1].id == "minimal" then
+	elseif #pkgmgr.games == 1 and pkgmgr.games[1].id == "minimal" then
 		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
 				fgettext("Warning: The minimal development test is meant for developers.") .. "]label[2,4.4;" ..
 				fgettext("Download a subgame, such as minetest_game, from minetest.net") .. "]"
@@ -102,10 +131,10 @@ local function create_world_buttonhandler(this, fields)
 			if message ~= nil then
 				gamedata.errormessage = message
 			else
-				core.settings:set("menu_last_game",gamemgr.games[gameindex].id)
+				core.settings:set("menu_last_game",pkgmgr.games[gameindex].id)
 				if this.data.update_worldlist_filter then
-					menudata.worldlist:set_filtercriteria(gamemgr.games[gameindex].id)
-					mm_texture.update("singleplayer", gamemgr.games[gameindex].id)
+					menudata.worldlist:set_filtercriteria(pkgmgr.games[gameindex].id)
+					mm_texture.update("singleplayer", pkgmgr.games[gameindex].id)
 				end
 				menudata.worldlist:refresh()
 				core.settings:set("mainmenu_last_selected_world",
@@ -120,9 +149,11 @@ local function create_world_buttonhandler(this, fields)
 	end
 
 	if fields["games"] then
+		local gameindex = core.get_textlist_index("games")
+		core.settings:set("menu_last_game", pkgmgr.games[gameindex].id)
 		return true
 	end
-	
+
 	if fields["world_create_cancel"] then
 		this:delete()
 		return true
@@ -138,6 +169,6 @@ function create_create_world_dlg(update_worldlistfilter)
 					create_world_buttonhandler,
 					nil)
 	retval.update_worldlist_filter = update_worldlistfilter
-	
+
 	return retval
 end

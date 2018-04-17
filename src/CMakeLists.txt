@@ -360,6 +360,7 @@ add_custom_target(GenerateVersion
 
 
 add_subdirectory(threading)
+add_subdirectory(content)
 add_subdirectory(network)
 add_subdirectory(script)
 add_subdirectory(unittest)
@@ -419,7 +420,6 @@ set(common_SRCS
 	mg_decoration.cpp
 	mg_ore.cpp
 	mg_schematic.cpp
-	mods.cpp
 	nameidmapping.cpp
 	nodedef.cpp
 	nodemetadata.cpp
@@ -446,7 +446,6 @@ set(common_SRCS
 	socket.cpp
 	sound.cpp
 	staticobject.cpp
-	subgame.cpp
 	terminal_chat_console.cpp
 	tileanimation.cpp
 	tool.cpp
@@ -455,6 +454,7 @@ set(common_SRCS
 	voxel.cpp
 	voxelalgorithms.cpp
 	${common_network_SRCS}
+	${content_SRCS}
 	${JTHREAD_SRCS}
 	${common_SCRIPT_SRCS}
 	${UTIL_SRCS}

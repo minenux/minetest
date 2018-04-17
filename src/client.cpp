@@ -35,7 +35,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapblock_mesh.h"
 #include "mapblock.h"
 #include "minimap.h"
-#include "mods.h"
+#include "content/mods.h"
 #include "profiler.h"
 #include "gettext.h"
 #include "clientmap.h"
