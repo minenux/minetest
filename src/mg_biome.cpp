@@ -138,7 +138,7 @@ Biome *BiomeManager::getBiomeFromNoiseOriginal(float heat, float humidity, s16 y
 		}
 	}
 
-	mysrand(y + (heat + humidity) / 2);
+	mysrand(y + (heat + humidity) * 0.9f);
 	if (biome_closest_blend && dist_min_blend <= dist_min &&
 			myrand_range(0, biome_closest_blend->vertical_blend) >=
 			y - biome_closest_blend->y_max)
@@ -291,8 +291,9 @@ Biome *BiomeGenOriginal::calcBiomeFromNoise(float heat, float humidity, s16 y) c
 	}
 
 	// Carefully tune pseudorandom seed variation to avoid single node dither
-	// and create larger scale blending patterns.
-	mysrand(y + (heat - humidity) * 2);
+	// and create larger scale blending patterns similar to horizontal biome
+	// blend.
+	mysrand(y + (heat + humidity) * 0.9f);
 
 	if (biome_closest_blend && dist_min_blend <= dist_min &&
 			myrand_range(0, biome_closest_blend->vertical_blend) >=
