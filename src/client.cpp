@@ -179,6 +179,9 @@ void Client::initMods()
 			<< script_path << "\"]" << std::endl;
 		m_script->loadMod(script_path, mod.name);
 	}
+
+	// Run a callback when mods are loaded
+	m_script->on_mods_loaded();
 }
 
 const std::string &Client::getBuiltinLuaPath()

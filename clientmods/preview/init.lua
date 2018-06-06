@@ -150,3 +150,7 @@ core.register_on_punchnode(function(pos, node)
 	return false
 end)
 
+
+core.register_on_mods_loaded(function()
+	core.log("Yeah preview mod is loaded with other CSM mods.")
+end)

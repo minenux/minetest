@@ -38,6 +38,9 @@ class ClientEnvironment;
 class ScriptApiClient : virtual public ScriptApiBase
 {
 public:
+	// Calls when mods are loaded
+	void on_mods_loaded();
+
 	// Calls on_shutdown handlers
 	void on_shutdown();
 
