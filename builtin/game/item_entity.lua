@@ -191,7 +191,7 @@ core.register_entity(":__builtin:item", {
 
 		-- If node is nil (unloaded area), or node is not registered, or node is
 		-- walkably solid and item is resting on nodebox
-		local v  = self.object:getvelocity()
+		local v  = self.object:get_velocity()
 		local nn = node.name
 		if not core.registered_nodes[nn] or (core.registered_nodes[nn].walkable and
 				core.get_item_group(nn, "slippery") == 0) and v.y == 0 then
