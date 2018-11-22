@@ -81,20 +81,20 @@ struct PlayerControl
 		sidew_move_joystick_axis = a_sidew_move_joystick_axis;
 		forw_move_joystick_axis = a_forw_move_joystick_axis;
 	}
-	bool up;
-	bool down;
-	bool left;
-	bool right;
-	bool jump;
-	bool aux1;
-	bool sneak;
-	bool zoom;
-	bool LMB;
-	bool RMB;
-	float pitch;
-	float yaw;
-	float sidew_move_joystick_axis;
-	float forw_move_joystick_axis;
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
+	bool jump = false;
+	bool aux1 = false;
+	bool sneak = false;
+	bool zoom = false;
+	bool LMB = false;
+	bool RMB = false;
+	float pitch = 0.0f;
+	float yaw = 0.0f;
+	float sidew_move_joystick_axis = 0.0f;
+	float forw_move_joystick_axis = 0.0f;
 };
 
 class Map;

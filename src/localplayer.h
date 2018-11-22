@@ -31,6 +31,7 @@ class GenericCAO;
 class ClientActiveObject;
 class ClientEnvironment;
 class IGameDef;
+struct collisionMoveResult;
 
 enum LocalPlayerAnimations
 {
@@ -142,11 +143,17 @@ public:
 	v3f getEyePosition() const { return m_position + getEyeOffset(); }
 	v3f getEyeOffset() const;
 
+	bool getAutojump() const { return m_autojump; }
+
 private:
 	void accelerate(const v3f &target_speed, const f32 max_increase_H,
 			const f32 max_increase_V, const bool use_pitch);
 	bool updateSneakNode(Map *map, const v3f &position, const v3f &sneak_max);
 	float getSlipFactor(Environment *env, const v3f &speedH);
+	void handleAutojump(f32 dtime, Environment *env,
+			const collisionMoveResult &result,
+			const v3f &position_before_move, const v3f &speed_before_move,
+			f32 pos_max_d);
 
 	v3f m_position;
 	v3s16 m_standing_node;
@@ -177,6 +184,9 @@ private:
 	f32 m_pitch;
 	bool camera_barely_in_ceiling;
 	aabb3f m_collisionbox;
+
+	bool m_autojump = false;
+	float m_autojump_time = 0.0f;
 
 	GenericCAO *m_cao;
 	Client *m_client;

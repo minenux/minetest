@@ -41,13 +41,15 @@ struct CollisionInfo
 	bool bouncy;
 	v3f old_speed;
 	v3f new_speed;
+	int plane;
 
 	CollisionInfo():
 		type(COLLISION_NODE),
 		node_p(-32768,-32768,-32768),
 		bouncy(false),
 		old_speed(0,0,0),
-		new_speed(0,0,0)
+		new_speed(0,0,0),
+		plane(-1)
 	{}
 };
 
@@ -94,4 +96,3 @@ bool wouldCollideWithCeiling(
 
 
 #endif
-
