@@ -141,8 +141,8 @@ public:
 	v3f getEyeOffset() const;
 
 private:
-	void accelerateHorizontal(const v3f &target_speed, const f32 max_increase);
-	void accelerateVertical(const v3f &target_speed, const f32 max_increase);
+	void accelerate(const v3f &target_speed, const f32 max_increase_H,
+			const f32 max_increase_V, const bool use_pitch);
 	bool updateSneakNode(Map *map, const v3f &position, const v3f &sneak_max);
 
 	v3f m_position;

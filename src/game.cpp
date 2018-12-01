@@ -1069,6 +1069,7 @@ void KeyCache::populate()
 	key[KeyType::MINIMAP]      = getKeySetting("keymap_minimap");
 	key[KeyType::FREEMOVE]     = getKeySetting("keymap_freemove");
 	key[KeyType::FASTMOVE]     = getKeySetting("keymap_fastmove");
+	key[KeyType::PITCHFLY]     = getKeySetting("keymap_pitchfly");
 	key[KeyType::NOCLIP]       = getKeySetting("keymap_noclip");
 	key[KeyType::HOTBAR_PREV]  = getKeySetting("keymap_hotbar_previous");
 	key[KeyType::HOTBAR_NEXT]  = getKeySetting("keymap_hotbar_next");
@@ -1260,6 +1261,7 @@ protected:
 	void openConsole(float scale, const wchar_t *line=NULL);
 	void toggleFreeMove();
 	void toggleFreeMoveAlt();
+	void togglePitchFly();
 	void toggleFast();
 	void toggleNoClip();
 	void toggleCinematic();
@@ -2519,6 +2521,8 @@ void Game::processKeyInput()
 		toggleFreeMove();
 	} else if (wasKeyDown(KeyType::JUMP)) {
 		toggleFreeMoveAlt();
+	} else if (wasKeyDown(KeyType::PITCHFLY)) {
+		togglePitchFly();
 	} else if (wasKeyDown(KeyType::FASTMOVE)) {
 		toggleFast();
 	} else if (wasKeyDown(KeyType::NOCLIP)) {
@@ -2717,7 +2721,7 @@ void Game::handleAndroidChatInput()
 
 void Game::toggleFreeMove()
 {
-	static const wchar_t *msg[] = { L"free_move disabled", L"free_move enabled" };
+	static const wchar_t *msg[] = { L"Fly mode disabled", L"Fly mode enabled" };
 
 	bool free_move = !g_settings->getBool("free_move");
 	g_settings->set("free_move", bool_to_cstr(free_move));
@@ -2738,9 +2742,23 @@ void Game::toggleFreeMoveAlt()
 }
 
 
+void Game::togglePitchFly()
+{
+	static const wchar_t *msg[] = { L"Pitch move mode disabled", L"Pitch move mode enabled" };
+
+	bool pitch_fly = !g_settings->getBool("pitch_fly");
+	g_settings->set("pitch_fly", bool_to_cstr(pitch_fly));
+
+	runData.statustext_time = 0;
+	m_statustext = msg[pitch_fly];
+	if (pitch_fly && !client->checkPrivilege("fly"))
+		m_statustext += L" (note: no 'fly' privilege)";
+}
+
+
 void Game::toggleFast()
 {
-	static const wchar_t *msg[] = { L"fast_move disabled", L"fast_move enabled" };
+	static const wchar_t *msg[] = { L"Fast mode disabled", L"Fast mode enabled" };
 	bool fast_move = !g_settings->getBool("fast_move");
 	g_settings->set("fast_move", bool_to_cstr(fast_move));
 
@@ -2760,7 +2778,7 @@ void Game::toggleFast()
 
 void Game::toggleNoClip()
 {
-	static const wchar_t *msg[] = { L"noclip disabled", L"noclip enabled" };
+	static const wchar_t *msg[] = { L"Noclip mode disabled", L"Noclip mode enabled" };
 	bool noclip = !g_settings->getBool("noclip");
 	g_settings->set("noclip", bool_to_cstr(noclip));
 
@@ -4017,7 +4035,7 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 		bool is_valid_position;
 		MapNode wasnode = map.getNodeNoEx(nodepos, &is_valid_position);
 		if (is_valid_position) {
-			if (client->moddingEnabled() && 
+			if (client->moddingEnabled() &&
 			    		client->getScript()->on_dignode(nodepos, wasnode)) {
 				return;
 			}
