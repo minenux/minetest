@@ -33,6 +33,32 @@ local function get_formspec(data)
 
 	local hard_deps, soft_deps = pkgmgr.get_dependencies(mod.path)
 
+<<<<<<< HEAD
+=======
+	if mod.is_modpack or mod.type == "game" then
+		local info = minetest.formspec_escape(
+			core.get_content_info(mod.path).description)
+		if info == "" then
+			if mod.is_modpack then
+				info = fgettext("No modpack description provided.")
+			else
+				info = fgettext("No game description provided.")
+			end
+		end
+		retval = retval ..
+			"textarea[0.25,0.7;5.75,7.2;;" .. info .. ";]"
+	else
+		retval = retval ..
+			"label[0,0.7;" .. fgettext("Mod:") .. "]" ..
+			"label[0.75,0.7;" .. mod.name .. "]" ..
+			"label[0,1.25;" .. fgettext("Dependencies:") .. "]" ..
+			"textlist[0,1.75;5,2.125;world_config_depends;" .. hard_deps ..
+			";0]" ..
+			"label[0,3.875;" .. fgettext("Optional dependencies:") .. "]" ..
+			"textlist[0,4.375;5,1.8;world_config_optdepends;" ..
+			soft_deps .. ";0]"
+	end
+>>>>>>> e8eaab64... Improve world configure menu (#7922)
 	retval = retval ..
 		"label[0,0.7;" .. fgettext("Mod:") .. "]" ..
 		"label[0.75,0.7;" .. mod.name .. "]" ..
@@ -51,12 +77,12 @@ local function get_formspec(data)
 
 			if pkgmgr.is_modpack_entirely_enabled(data, mod.name) then
 				retval = retval ..
-					"button[5.5,0.125;2.5,0.5;btn_mp_disable;" ..
-					fgettext("Disable MP") .. "]"
+					"button[5.5,0.125;3,0.5;btn_mp_disable;" ..
+					fgettext("Disable modpack") .. "]"
 			else
 				retval = retval ..
-					"button[5.5,0.125;2.5,0.5;btn_mp_enable;" ..
-					fgettext("Enable MP") .. "]"
+					"button[5.5,0.125;3,0.5;btn_mp_enable;" ..
+					fgettext("Enable modpack") .. "]"
 			end
 		else
 			retval = retval ..
@@ -66,11 +92,11 @@ local function get_formspec(data)
 	end
 	if enabled_all then
 		retval = retval ..
-			"button[8.75,0.125;2.5,0.5;btn_disable_all_mods;" ..
+			"button[8.95,0.125;2.5,0.5;btn_disable_all_mods;" ..
 			fgettext("Disable all") .. "]"
 	else
 		retval = retval ..
-			"button[8.75,0.125;2.5,0.5;btn_enable_all_mods;" ..
+			"button[8.95,0.125;2.5,0.5;btn_enable_all_mods;" ..
 			fgettext("Enable all") .. "]"
 	end
 	return retval ..

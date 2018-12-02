@@ -21,7 +21,7 @@ function get_mods(path,retval,modpack)
 
 	for _, name in ipairs(mods) do
 		if name:sub(1, 1) ~= "." then
-			local prefix = path .. DIR_DELIM .. name .. DIR_DELIM
+			local prefix = path .. DIR_DELIM .. name
 			local toadd = {}
 			retval[#retval + 1] = toadd
 
@@ -557,7 +557,8 @@ function pkgmgr.preparemodlist(data)
 		retval[#retval + 1] = {
 			type = "game",
 			is_game_content = true,
-			name = fgettext("Subgame Mods")
+			name = fgettext(gamespec.name .. " mods"),
+			path = gamespec.path
 		}
 	end
 
