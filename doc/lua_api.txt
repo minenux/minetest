@@ -665,7 +665,7 @@ Example (colored grass block):
         description = "Dirt with Grass",
         -- Regular tiles, as usual
         -- The dirt tile disables palette coloring
-        tiles = {{name = "default_grass.png"}, 
+        tiles = {{name = "default_grass.png"},
             {name = "default_dirt.png", color = "white"}},
         -- Overlay tiles: define them in the same style
         -- The top and bottom tile does not have overlay
@@ -4155,8 +4155,9 @@ Definition tables
           actual result to client in a short moment.
         ]]
         sound = {
-            breaks = "default_tool_break", -- tools only
-            place = --[[<SimpleSoundSpec>]],
+            breaks = "default_tool_break",  -- tools only
+            place = <SimpleSoundSpec>,
+            eat = <SimpleSoundSpec>,
         },
 
         on_place = func(itemstack, placer, pointed_thing),
@@ -4831,4 +4832,3 @@ The Biome API is still in an experimental phase and subject to change.
         record_login = func(name),
     --  ^ Called when player joins, used for keeping track of last_login
     }
-
