@@ -998,64 +998,6 @@ int ModApiMainMenu::l_get_screen_info(lua_State *L)
 	return 1;
 }
 
-int ModApiMainMenu::l_get_package_list(lua_State *L)
-{
-	std::string url = g_settings->get("contentdb_url");
-	std::vector<Package> packages = getPackagesFromURL(url + "/api/packages/");
-
-	// Make table
-	lua_newtable(L);
-	int top = lua_gettop(L);
-	unsigned int index = 1;
-
-	// Fill table
-	for (const auto &package : packages) {
-		lua_pushnumber(L, index);
-		lua_newtable(L);
-
-		int top_lvl2 = lua_gettop(L);
-
-		lua_pushstring(L, "author");
-		lua_pushstring(L, package.author.c_str());
-		lua_settable  (L, top_lvl2);
-
-		lua_pushstring(L, "name");
-		lua_pushstring(L, package.name.c_str());
-		lua_settable  (L, top_lvl2);
-
-		lua_pushstring(L, "title");
-		lua_pushstring(L, package.title.c_str());
-		lua_settable  (L, top_lvl2);
-
-		lua_pushstring(L, "type");
-		lua_pushstring(L, package.type.c_str());
-		lua_settable  (L, top_lvl2);
-
-		lua_pushstring(L, "short_description");
-		lua_pushstring(L, package.shortDesc.c_str());
-		lua_settable  (L, top_lvl2);
-
-		lua_pushstring (L, "release");
-		lua_pushinteger(L, package.release);
-		lua_settable   (L, top_lvl2);
-
-		if (package.thumbnail != "") {
-			lua_pushstring(L, "thumbnail");
-			lua_pushstring(L, package.thumbnail.c_str());
-			lua_settable  (L, top_lvl2);
-		}
-
-		lua_pushstring(L, "url");
-		lua_pushstring(L, package.getDownloadURL(url).c_str());
-		lua_settable  (L, top_lvl2);
-
-		lua_settable(L, top);
-		index++;
-	}
-
-	return 1;
-}
-
 /******************************************************************************/
 int ModApiMainMenu::l_get_min_supp_proto(lua_State *L)
 {
@@ -1127,7 +1069,6 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(get_video_drivers);
 	API_FCT(get_video_modes);
 	API_FCT(get_screen_info);
-	API_FCT(get_package_list);
 	API_FCT(get_min_supp_proto);
 	API_FCT(get_max_supp_proto);
 	API_FCT(do_async_callback);
@@ -1150,5 +1091,4 @@ void ModApiMainMenu::InitializeAsync(lua_State *L, int top)
 	//API_FCT(extract_zip); //TODO remove dependency to GuiEngine
 	API_FCT(download_file);
 	//API_FCT(gettext); (gettext lib isn't threadsafe)
-	API_FCT(get_package_list);
 }
