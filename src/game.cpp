@@ -1069,7 +1069,7 @@ void KeyCache::populate()
 	key[KeyType::MINIMAP]      = getKeySetting("keymap_minimap");
 	key[KeyType::FREEMOVE]     = getKeySetting("keymap_freemove");
 	key[KeyType::FASTMOVE]     = getKeySetting("keymap_fastmove");
-	key[KeyType::PITCHFLY]     = getKeySetting("keymap_pitchfly");
+	key[KeyType::PITCHMOVE]    = getKeySetting("keymap_pitchmove");
 	key[KeyType::NOCLIP]       = getKeySetting("keymap_noclip");
 	key[KeyType::HOTBAR_PREV]  = getKeySetting("keymap_hotbar_previous");
 	key[KeyType::HOTBAR_NEXT]  = getKeySetting("keymap_hotbar_next");
@@ -1261,7 +1261,7 @@ protected:
 	void openConsole(float scale, const wchar_t *line=NULL);
 	void toggleFreeMove();
 	void toggleFreeMoveAlt();
-	void togglePitchFly();
+	void togglePitchMove();
 	void toggleFast();
 	void toggleNoClip();
 	void toggleCinematic();
@@ -2521,8 +2521,8 @@ void Game::processKeyInput()
 		toggleFreeMove();
 	} else if (wasKeyDown(KeyType::JUMP)) {
 		toggleFreeMoveAlt();
-	} else if (wasKeyDown(KeyType::PITCHFLY)) {
-		togglePitchFly();
+	} else if (wasKeyDown(KeyType::PITCHMOVE)) {
+		togglePitchMove();
 	} else if (wasKeyDown(KeyType::FASTMOVE)) {
 		toggleFast();
 	} else if (wasKeyDown(KeyType::NOCLIP)) {
@@ -2742,17 +2742,15 @@ void Game::toggleFreeMoveAlt()
 }
 
 
-void Game::togglePitchFly()
+void Game::togglePitchMove()
 {
 	static const wchar_t *msg[] = { L"Pitch move mode disabled", L"Pitch move mode enabled" };
 
-	bool pitch_fly = !g_settings->getBool("pitch_fly");
-	g_settings->set("pitch_fly", bool_to_cstr(pitch_fly));
+	bool pitch_move = !g_settings->getBool("pitch_move");
+	g_settings->set("pitch_move", bool_to_cstr(pitch_move));
 
 	runData.statustext_time = 0;
-	m_statustext = msg[pitch_fly];
-	if (pitch_fly && !client->checkPrivilege("fly"))
-		m_statustext += L" (note: no 'fly' privilege)";
+	m_statustext = msg[pitch_move];
 }
 
 

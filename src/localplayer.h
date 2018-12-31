@@ -57,15 +57,16 @@ public:
 	// This is more stable and defines the maximum speed of the player
 	bool in_liquid_stable;
 	// Gets the viscosity of water to calculate friction
-	u8 liquid_viscosity;
-	bool is_climbing;
-	bool swimming_vertical;
+	u8 liquid_viscosity = 0;
+	bool is_climbing = false;
+	bool swimming_vertical = false;
+	bool swimming_pitch = false;
 
-	float physics_override_speed;
-	float physics_override_jump;
-	float physics_override_gravity;
-	bool physics_override_sneak;
-	bool physics_override_sneak_glitch;
+	float physics_override_speed = 1.0f;
+	float physics_override_jump = 1.0f;
+	float physics_override_gravity = 1.0f;
+	bool physics_override_sneak = true;
+	bool physics_override_sneak_glitch = false;
 	// Temporary option for old move code
 	bool physics_override_new_move;
 

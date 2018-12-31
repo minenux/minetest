@@ -48,7 +48,7 @@ enum
 	GUI_ID_KEY_USE_BUTTON,
 	GUI_ID_KEY_FLY_BUTTON,
 	GUI_ID_KEY_FAST_BUTTON,
-	GUI_ID_KEY_PITCHFLY_BUTTON,
+	GUI_ID_KEY_PITCHMOVE_BUTTON,
 	GUI_ID_KEY_JUMP_BUTTON,
 	GUI_ID_KEY_NOCLIP_BUTTON,
 	GUI_ID_KEY_CINEMATIC_BUTTON,
@@ -426,7 +426,7 @@ void GUIKeyChangeMenu::init_keys()
 	this->add_key(GUI_ID_KEY_CONSOLE_BUTTON,   wgettext("Console"),          "keymap_console");
 	this->add_key(GUI_ID_KEY_FLY_BUTTON,       wgettext("Toggle fly"),       "keymap_freemove");
 	this->add_key(GUI_ID_KEY_FAST_BUTTON,      wgettext("Toggle fast"),      "keymap_fastmove");
-	this->add_key(GUI_ID_KEY_PITCHFLY_BUTTON,  wgettext("Toggle pitch fly"), "keymap_pitchfly");
+	this->add_key(GUI_ID_KEY_PITCHMOVE_BUTTON, wgettext("Toggle pitch fly"), "keymap_pitchmove");
 	this->add_key(GUI_ID_KEY_CINEMATIC_BUTTON, wgettext("Toggle Cinematic"), "keymap_cinematic");
 	this->add_key(GUI_ID_KEY_NOCLIP_BUTTON,    wgettext("Toggle noclip"),    "keymap_noclip");
 	this->add_key(GUI_ID_KEY_RANGE_BUTTON,     wgettext("Range select"),     "keymap_rangeselect");

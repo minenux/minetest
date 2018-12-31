@@ -522,6 +522,7 @@ void LocalPlayer::applyControl(float dtime)
 {
 	// Clear stuff
 	swimming_vertical = false;
+	swimming_pitch = false;
 
 	setPitch(control.pitch);
 	setYaw(control.yaw);
@@ -544,7 +545,7 @@ void LocalPlayer::applyControl(float dtime)
 
 	bool free_move = fly_allowed && g_settings->getBool("free_move");
 	bool fast_move = fast_allowed && g_settings->getBool("fast_move");
-	bool pitch_fly = free_move && g_settings->getBool("pitch_fly");
+	bool pitch_move = (free_move || in_liquid) && g_settings->getBool("pitch_move");
 	// When aux1_descends is enabled the fast key is used to go down, so fast isn't possible
 	bool fast_climb = fast_move && control.aux1 && !g_settings->getBool("aux1_descends");
 	bool continuous_forward = g_settings->getBool("continuous_forward");
@@ -735,10 +736,21 @@ void LocalPlayer::applyControl(float dtime)
 	else
 		incH = incV = movement_acceleration_default * BS * dtime;
 
+	float slip_factor = 1.0f;
+	// if (!free_move)
+	// 	slip_factor = getSlipFactor(env, speedH);
+
+	// Don't sink when swimming in pitch mode
+	if (pitch_move && in_liquid) {
+		v3f controlSpeed = speedH + speedV;
+		if (controlSpeed.getLength() > 0.01f)
+			swimming_pitch = true;
+	}
+
 	// Accelerate to target speed with maximum increment
 	accelerate((speedH + speedV) * physics_override_speed,
-			incH * physics_override_speed, incV * physics_override_speed,
-			pitch_fly);
+			incH * physics_override_speed * slip_factor, incV * physics_override_speed,
+			pitch_move);
 }
 
 v3s16 LocalPlayer::getStandingNodePos()
