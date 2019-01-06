@@ -171,7 +171,7 @@ void ScriptApiPlayer::on_playerReceiveFields(ServerActiveObject *player,
 {
 	SCRIPTAPI_PRECHECKHEADER
 
-	// Get core.registered_on_chat_messages
+	// Get core.registered_on_player_receive_fields
 	lua_getglobal(L, "core");
 	lua_getfield(L, -1, "registered_on_player_receive_fields");
 	// Call callbacks
