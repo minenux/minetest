@@ -728,9 +728,9 @@ std::vector<v3s16> Pathfinder::getPath(ServerEnvironment *env,
 
 		//finalize path
 		std::vector<v3s16> full_path;
-		for (std::vector<v3s16>::iterator i = path.begin();
-					i != path.end(); ++i) {
-			full_path.push_back(getIndexElement(*i).pos);
+		full_path.reserve(path.size());
+		for (const v3s16 &i : path) {
+			full_path.push_back(getIndexElement(i).pos);
 		}
 
 #ifdef PATHFINDER_DEBUG
