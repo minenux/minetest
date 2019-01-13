@@ -112,9 +112,9 @@ static std::vector<std::string> craftGetItemNames(
 		const std::vector<std::string> &itemstrings, IGameDef *gamedef)
 {
 	std::vector<std::string> result;
-	for (std::vector<std::string>::size_type i = 0;
-			i < itemstrings.size(); i++) {
-		result.push_back(craftGetItemName(itemstrings[i], gamedef));
+	result.reserve(itemstrings.size());
+	for (const auto &itemstring : itemstrings) {
+		result.push_back(craftGetItemName(itemstring, gamedef));
 	}
 	return result;
 }
@@ -124,9 +124,9 @@ static std::vector<std::string> craftGetItemNames(
 		const std::vector<ItemStack> &items, IGameDef *gamedef)
 {
 	std::vector<std::string> result;
-	for (std::vector<ItemStack>::size_type i = 0;
-			i < items.size(); i++) {
-		result.push_back(items[i].name);
+	result.reserve(items.size());
+	for (const auto &item : items) {
+		result.push_back(item.name);
 	}
 	return result;
 }
@@ -136,10 +136,10 @@ static std::vector<ItemStack> craftGetItems(
 		const std::vector<std::string> &items, IGameDef *gamedef)
 {
 	std::vector<ItemStack> result;
-	for (std::vector<std::string>::size_type i = 0;
-			i < items.size(); i++) {
-		result.push_back(ItemStack(std::string(items[i]), (u16)1,
-			(u16)0, gamedef->getItemDefManager()));
+	result.reserve(items.size());
+	for (const auto &item : items) {
+		result.emplace_back(std::string(item), (u16)1,
+			(u16)0, gamedef->getItemDefManager());
 	}
 	return result;
 }
@@ -935,7 +935,7 @@ public:
 
 					// Get output, then decrement input (if requested)
 					output = out;
-                    
+
 					if (decrementInput)
 						def->decrementInput(input, output_replacement, gamedef);
 					/*errorstream << "Check RETURNS TRUE" << std::endl;*/
