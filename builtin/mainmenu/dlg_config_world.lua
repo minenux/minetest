@@ -164,11 +164,13 @@ local function handle_buttons(this, fields)
 			if not mod.is_modpack and
 					not mod.is_game_content then
 				if modname_valid(mod.name) then
-					worldfile:set("load_mod_"..mod.name, tostring(mod.enabled))
-				else
-					if mod.enabled then
-						gamedata.errormessage = fgettext_ne("Failed to enable mod \"$1\" as it contains disallowed characters. Only chararacters [a-z0-9_] are allowed.", mod.name)
-					end
+					worldfile:set("load_mod_" .. mod.name,
+						mod.enabled and "true" or "false")
+				elseif mod.enabled then
+					gamedata.errormessage = fgettext_ne("Failed to enable mo" ..
+							"d \"$1\" as it contains disallowed characters. " ..
+							"Only characters [a-z0-9_] are allowed.",
+							mod.name)
 				end
 				mods["load_mod_"..mod.name] = nil
 			end

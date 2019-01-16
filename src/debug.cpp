@@ -72,7 +72,7 @@ void fatal_error_fn(const char *msg, const char *file,
 	errorstream << std::endl << "In thread " << std::hex
 		<< thr_get_current_thread_id() << ":" << std::endl;
 	errorstream << file << ":" << line << ": " << function
-		<< ": A fatal error occured: " << msg << std::endl;
+		<< ": A fatal error occurred: " << msg << std::endl;
 
 	debug_stacks_print_to(errorstream);
 

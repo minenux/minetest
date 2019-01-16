@@ -2267,7 +2267,7 @@ bool ServerEnvironment::migratePlayersDatabase(const GameParams &game_params,
 		delete dstdb;
 
 	} catch (BaseException &e) {
-		errorstream << "An error occured during migration: " << e.what() << std::endl;
+		errorstream << "An error occurred during migration: " << e.what() << std::endl;
 		return false;
 	}
 	return true;
