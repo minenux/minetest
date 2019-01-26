@@ -560,7 +560,7 @@ end
 --------------------------------------------------------------------------------
 if INIT == "mainmenu" then
 	function core.get_game(index)
-		local games = game.get_games()
+		local games = core.get_games()
 
 		if index > 0 and index <= #games then
 			return games[index]
