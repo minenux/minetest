@@ -690,6 +690,12 @@ int ModApiMainMenu::l_get_texturepath_share(lua_State *L)
 	return 1;
 }
 
+int ModApiMainMenu::l_get_cache_path(lua_State *L)
+{
+	lua_pushstring(L, fs::RemoveRelativePathComponents(porting::path_cache).c_str());
+	return 1;
+}
+
 /******************************************************************************/
 int ModApiMainMenu::l_create_dir(lua_State *L) {
 	const char *path = luaL_checkstring(L, 1);
@@ -870,6 +876,8 @@ bool ModApiMainMenu::isMinetestPath(std::string path)
 	if (fs::PathStartsWith(path,fs::RemoveRelativePathComponents(porting::path_user + DIR_DELIM + "worlds")))
 		return true;
 
+	if (fs::PathStartsWith(path, fs::RemoveRelativePathComponents(porting::path_cache)))
+		return true;
 
 	return false;
 }
@@ -1058,6 +1066,7 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(get_gamepath);
 	API_FCT(get_texturepath);
 	API_FCT(get_texturepath_share);
+	API_FCT(get_cache_path);
 	API_FCT(create_dir);
 	API_FCT(delete_dir);
 	API_FCT(copy_dir);
@@ -1085,6 +1094,7 @@ void ModApiMainMenu::InitializeAsync(lua_State *L, int top)
 	API_FCT(get_gamepath);
 	API_FCT(get_texturepath);
 	API_FCT(get_texturepath_share);
+	API_FCT(get_cache_path);
 	API_FCT(create_dir);
 	API_FCT(delete_dir);
 	API_FCT(copy_dir);
