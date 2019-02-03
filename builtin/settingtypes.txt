@@ -1515,3 +1515,16 @@ main_menu_mod_mgr (Main menu mod manager) int 1
 
 #    Print the engine's profiling data in regular intervals (in seconds). 0 = disable. Useful for developers.
 profiler_print_interval (Engine profiling data print interval) int 0
+
+[Content Store]
+
+#    The URL for the content repository
+contentdb_url (ContentDB URL) string https://content.minetest.net
+
+#    Comma-separated list of flags to hide in the content repository.
+#    "nonfree" can be used to hide packages which do not qualify as 'free software',
+#    as defined by the Free Software Foundation.
+#    You can also specify content ratings.
+#    These flags are independent from Minetest versions,
+#    so see a full list at https://content.minetest.net/help/content_flags/
+contentdb_flag_blacklist (ContentDB Flag Blacklist) string nonfree, desktop_default

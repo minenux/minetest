@@ -255,6 +255,14 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("font_size", font_size_str);
 	settings->setDefault("mono_font_size", font_size_str);
 	settings->setDefault("contentdb_url", "https://content.minetest.net");
+<<<<<<< HEAD
+=======
+#ifdef __ANDROID__
+	settings->setDefault("contentdb_flag_blacklist", "nonfree, android_default");
+#else
+	settings->setDefault("contentdb_flag_blacklist", "nonfree, desktop_default");
+#endif
+>>>>>>> 626b0b7e... Add setting to hide mature content from ContentDB
 
 
 	// Server
