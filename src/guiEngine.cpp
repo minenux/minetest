@@ -357,7 +357,7 @@ void GUIEngine::cloudInit()
 {
 	m_cloud.clouds = new Clouds(m_smgr->getRootSceneNode(),
 			m_smgr, -1, rand(), 100);
-	m_cloud.clouds->update(v2f(0, 0), video::SColor(255,200,200,255));
+	m_cloud.clouds->update(v2f(0, 0), video::SColor(255,240,240,255));
 
 	m_cloud.camera = m_smgr->addCameraSceneNode(0,
 				v3f(0,0,0), v3f(0, 60, 100));
@@ -631,4 +631,3 @@ unsigned int GUIEngine::queueAsync(const std::string &serialized_func,
 {
 	return m_script->queueAsync(serialized_func, serialized_params);
 }
-
