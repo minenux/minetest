@@ -3025,9 +3025,9 @@ std::wstring Server::getStatusString()
 	bool first = true;
 	os << L", clients={";
 	if (m_env) {
-		std::vector<session_t> clients = m_clients.getClientIDs();
-		for (session_t client_id : clients) {
-			RemotePlayer *player = m_env->getPlayer(client_id);
+		std::vector<u16> clients = m_clients.getClientIDs();
+		for (std::vector<u16>::iterator i = clients.begin(); i != clients.end(); ++i) {
+			RemotePlayer *player = m_env->getPlayer(*i);
 
 			// Get name of player
 			std::wstring name = L"unknown";
