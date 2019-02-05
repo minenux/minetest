@@ -1516,9 +1516,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
-"Announce to this serverlist.\n"
-"If you want to announce your ipv6 address, use  serverlist_url = v6.servers."
-"minetest.net."
+"Announce to this serverlist."
 msgstr ""
 
 #: src/settings_translation_file.cpp

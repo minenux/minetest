@@ -1597,9 +1597,7 @@ msgstr "Meddelelsesserver"
 
 #: src/settings_translation_file.cpp
 msgid ""
-"Announce to this serverlist.\n"
-"If you want to announce your ipv6 address, use  serverlist_url = v6.servers."
-"minetest.net."
+"Announce to this serverlist."
 msgstr ""
 "Meddel på denne serverliste\n"
 "Hvis du ønsker at annoncere din ipv6-adresse, så brug serverlist_url = v6."

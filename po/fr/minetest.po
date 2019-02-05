@@ -1576,9 +1576,7 @@ msgstr "Annoncer le serveur"
 
 #: src/settings_translation_file.cpp
 msgid ""
-"Announce to this serverlist.\n"
-"If you want to announce your ipv6 address, use  serverlist_url = v6.servers."
-"minetest.net."
+"Announce to this serverlist."
 msgstr ""
 "Annoncer à la liste des serveurs publics.\n"
 "Si vous voulez annoncer votre adresse IPv6, utilisez serverlist_url = v6."

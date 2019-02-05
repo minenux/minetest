@@ -1614,9 +1614,7 @@ msgstr "Meldt server aan bij de server-lijst"
 
 #: src/settings_translation_file.cpp
 msgid ""
-"Announce to this serverlist.\n"
-"If you want to announce your ipv6 address, use  serverlist_url = v6.servers."
-"minetest.net."
+"Announce to this serverlist."
 msgstr ""
 "URL van de serverlijst om aan te melden.\n"
 "Voor het aanmelden van een ipv6 adres bij de minetest serverlijst, gebruik "

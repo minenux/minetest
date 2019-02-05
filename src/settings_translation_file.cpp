@@ -361,7 +361,7 @@ fake_function() {
 	gettext("Announce server");
 	gettext("Automaticaly report to the serverlist.");
 	gettext("Serverlist URL");
-	gettext("Announce to this serverlist.\nIf you want to announce your ipv6 address, use  serverlist_url = v6.servers.minetest.net.");
+	gettext("Announce to this serverlist.");
 	gettext("Strip color codes");
 	gettext("Remove color codes from incoming chat messages\nUse this to stop players from being able to use color in their messages");
 	gettext("Network");

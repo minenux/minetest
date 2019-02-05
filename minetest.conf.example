@@ -332,7 +332,7 @@
 
 #    URL to the server list displayed in the Multiplayer Tab.
 #    type: string
-# serverlist_url = servers.minetest.net
+# serverlist_url = servers.edgy1.net
 
 #    File in client/serverlist/ that contains your favorite servers displayed in the Multiplayer Tab.
 #    type: string
@@ -858,14 +858,13 @@
 # server_announce = false
 
 #    Announce to this serverlist.
-#    If you want to announce your ipv6 address, use  serverlist_url = v6.servers.minetest.net.
 #    type: string
-# serverlist_url = servers.minetest.net
+# serverlist_url = servers.edgy1.net
 
 #    Remove color codes from incoming chat messages
 #    Use this to stop players from being able to use color in their messages
 #    type: bool
-# strip_color_codes = false
+# strip_color_codes = true
 
 ## Network
 
@@ -1835,4 +1834,3 @@
 #    Print the engine's profiling data in regular intervals (in seconds). 0 = disable. Useful for developers.
 #    type: int
 # profiler_print_interval = 0
-

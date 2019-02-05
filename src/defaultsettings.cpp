@@ -31,7 +31,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("language", "");
 	settings->setDefault("name", "");
 	settings->setDefault("bind_address", "");
-	settings->setDefault("serverlist_url", "servers.minetest.net");
+	settings->setDefault("serverlist_url", "servers.edgy1.net");
 
 	// Client
 	settings->setDefault("address", "");
@@ -253,7 +253,7 @@ void set_default_settings(Settings *settings)
 
 	// Server
 	settings->setDefault("disable_escape_sequences", "false");
-	settings->setDefault("strip_color_codes", "false");
+	settings->setDefault("strip_color_codes", "true");
 
 	// Network
 	settings->setDefault("enable_ipv6", "true");

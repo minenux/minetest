@@ -1575,9 +1575,7 @@ msgstr "서버 발표"
 #: src/settings_translation_file.cpp
 #, fuzzy
 msgid ""
-"Announce to this serverlist.\n"
-"If you want to announce your ipv6 address, use  serverlist_url = v6.servers."
-"minetest.net."
+"Announce to this serverlist."
 msgstr ""
 "서버리스트에 발표합니다.\n"
 "만약 당신의 Ipv6 주소를 알리기 원한다면 serverlist_url = v6.servers.minetest."

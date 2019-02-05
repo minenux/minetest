@@ -303,7 +303,7 @@ enable_remote_media_server (Connect to external media server) bool true
 enable_client_modding (Client modding) bool false
 
 #    URL to the server list displayed in the Multiplayer Tab.
-serverlist_url (Serverlist URL) string servers.minetest.net
+serverlist_url (Serverlist URL) string servers.edgy1.net
 
 #    File in client/serverlist/ that contains your favorite servers displayed in the Multiplayer Tab.
 serverlist_file (Serverlist file) string favoriteservers.txt
@@ -720,12 +720,11 @@ server_url (Server URL) string http://minetest.net
 server_announce (Announce server) bool false
 
 #    Announce to this serverlist.
-#    If you want to announce your ipv6 address, use  serverlist_url = v6.servers.minetest.net.
-serverlist_url (Serverlist URL) string servers.minetest.net
+serverlist_url (Serverlist URL) string servers.edgy1.net
 
 # Remove color codes from incoming chat messages
 # Use this to stop players from being able to use color in their messages
-strip_color_codes (Strip color codes) bool false
+strip_color_codes (Strip color codes) bool true
 
 [*Network]
 
