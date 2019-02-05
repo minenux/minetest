@@ -13,14 +13,19 @@ set(PROJECT_NAME_CAPITALIZED "Minetest")
 # Also remember to set PROTOCOL_VERSION in network/networkprotocol.h when releasing
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 4)
-set(VERSION_PATCH 17)
-set(VERSION_TWEAK 1)
+set(VERSION_PATCH 18)
+set(VERSION_TWEAK 0)
 set(VERSION_EXTRA "" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
-set(DEVELOPMENT_BUILD FALSE)
+set(DEVELOPMENT_BUILD TRUE)
 
-set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK}")
+set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
+if(NOT ${VERSION_TWEAK} EQUAL 0)
+	set(VERSION_STRING "${VERSION_STRING}.${VERSION_TWEAK}")
+endif()
+
 if(VERSION_EXTRA)
 	set(VERSION_STRING ${VERSION_STRING}-${VERSION_EXTRA})
 elseif(DEVELOPMENT_BUILD)
@@ -244,4 +249,3 @@ if(DOXYGEN_FOUND)
 		COMMENT "Generating API documentation with Doxygen" VERBATIM
 	)
 endif()
-
