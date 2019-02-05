@@ -48,6 +48,7 @@ enum
 	GUI_ID_KEY_USE_BUTTON,
 	GUI_ID_KEY_FLY_BUTTON,
 	GUI_ID_KEY_FAST_BUTTON,
+	GUI_ID_KEY_PITCHFLY_BUTTON,
 	GUI_ID_KEY_JUMP_BUTTON,
 	GUI_ID_KEY_NOCLIP_BUTTON,
 	GUI_ID_KEY_CINEMATIC_BUTTON,
@@ -115,7 +116,7 @@ void GUIKeyChangeMenu::regenerateGui(v2u32 screensize)
 {
 	removeChildren();
 	v2s32 size(745, 430);
-	
+
 	core::rect < s32 > rect(screensize.X / 2 - size.X / 2,
 							screensize.Y / 2 - size.Y / 2, screensize.X / 2 + size.X / 2,
 							screensize.Y / 2 + size.Y / 2);
@@ -124,7 +125,7 @@ void GUIKeyChangeMenu::regenerateGui(v2u32 screensize)
 	recalculateAbsolutePosition(false);
 
 	v2s32 topleft(0, 0);
-	
+
 	{
 		core::rect < s32 > rect(0, 0, 600, 40);
 		rect += topleft + v2s32(25, 3);
@@ -163,7 +164,7 @@ void GUIKeyChangeMenu::regenerateGui(v2u32 screensize)
 			offset += v2s32(0, 25);
 		}
 	}
-	
+
 	{
 		s32 option_x = offset.X;
 		s32 option_y = offset.Y + 5;
@@ -209,7 +210,7 @@ void GUIKeyChangeMenu::regenerateGui(v2u32 screensize)
 		Environment->addButton(rect, this, GUI_ID_ABORT_BUTTON,
 				text);
 		delete[] text;
-	}	
+	}
 }
 
 void GUIKeyChangeMenu::drawMenu()
@@ -279,10 +280,10 @@ bool GUIKeyChangeMenu::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT && activeKey >= 0
 			&& event.KeyInput.PressedDown) {
-		
+
 		bool prefer_character = shift_down;
 		KeyPress kp(event.KeyInput, prefer_character);
-		
+
 		bool shift_went_down = false;
 		if(!shift_down &&
 				(event.KeyInput.Key == irr::KEY_SHIFT ||
@@ -425,10 +426,10 @@ void GUIKeyChangeMenu::init_keys()
 	this->add_key(GUI_ID_KEY_CONSOLE_BUTTON,   wgettext("Console"),          "keymap_console");
 	this->add_key(GUI_ID_KEY_FLY_BUTTON,       wgettext("Toggle fly"),       "keymap_freemove");
 	this->add_key(GUI_ID_KEY_FAST_BUTTON,      wgettext("Toggle fast"),      "keymap_fastmove");
+	this->add_key(GUI_ID_KEY_PITCHFLY_BUTTON,  wgettext("Toggle pitch fly"), "keymap_pitchfly");
 	this->add_key(GUI_ID_KEY_CINEMATIC_BUTTON, wgettext("Toggle Cinematic"), "keymap_cinematic");
 	this->add_key(GUI_ID_KEY_NOCLIP_BUTTON,    wgettext("Toggle noclip"),    "keymap_noclip");
 	this->add_key(GUI_ID_KEY_RANGE_BUTTON,     wgettext("Range select"),     "keymap_rangeselect");
 	this->add_key(GUI_ID_KEY_DUMP_BUTTON,      wgettext("Print stacks"),     "keymap_print_debug_stacks");
 	this->add_key(GUI_ID_KEY_ZOOM_BUTTON,      wgettext("Zoom"),             "keymap_zoom");
 }
-

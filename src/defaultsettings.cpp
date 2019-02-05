@@ -42,7 +42,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("meshgen_block_cache_size", "20");
 	settings->setDefault("enable_vbo", "true");
 	settings->setDefault("free_move", "false");
-	settings->setDefault("pitch_fly", "false");
+	settings->setDefault("pitch_fly", "true");
 	settings->setDefault("fast_move", "false");
 	settings->setDefault("noclip", "false");
 	settings->setDefault("screenshot_path", ".");
