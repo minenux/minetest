@@ -522,7 +522,6 @@ void LocalPlayer::applyControl(float dtime)
 {
 	// Clear stuff
 	swimming_vertical = false;
-	swimming_pitch = false;
 
 	setPitch(control.pitch);
 	setYaw(control.yaw);
@@ -744,7 +743,7 @@ void LocalPlayer::applyControl(float dtime)
 	if (pitch_move && in_liquid) {
 		v3f controlSpeed = speedH + speedV;
 		if (controlSpeed.getLength() > 0.01f)
-			swimming_pitch = true;
+			swimming_vertical = true;
 	}
 
 	// Accelerate to target speed with maximum increment
