@@ -736,7 +736,7 @@ void LocalPlayer::applyControl(float dtime, ClientEnvironment *env)
 		incH = incV = movement_acceleration_default * BS * dtime;
 
 	float slip_factor = 1.0f;
-	if (!free_move)
+	if (!free_move && !in_liquid && !in_liquid_stable)
 		slip_factor = getSlipFactor(env, speedH);
 
 	// Don't sink when swimming in pitch mode
