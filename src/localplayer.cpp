@@ -829,7 +829,7 @@ void LocalPlayer::old_move(f32 dtime, Environment *env, f32 pos_max_d,
 		std::vector<CollisionInfo> *collision_info)
 {
 	Map *map = &env->getMap();
-	NodeDefManager *nodemgr = m_client->ndef();
+	INodeDefManager *nodemgr = m_client->ndef();
 
 	v3f position = getPosition();
 
