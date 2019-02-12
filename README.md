@@ -1,7 +1,7 @@
 minetest-luk3yx-4
 ========
 
-A [Minetest][https://github.com/minetest/minetest] fork with backported features
+A [Minetest](https://github.com/minetest/minetest) fork with backported features
 and bugfixes from 5.0.0.
 
 Copyright (C) 2010-2019 Perttu Ahola <celeron55@gmail.com>
