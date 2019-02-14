@@ -836,7 +836,7 @@ int ModApiMainMenu::l_extract_zip(lua_State *L)
 
 		io::IFileSystem* fs = engine->m_device->getFileSystem();
 
-		if (!fs->addFileArchive(zipfile,true,false,io::EFAT_ZIP)) {
+		if (!fs->addFileArchive(zipfile, false, false, io::EFAT_ZIP)) {
 			lua_pushboolean(L,false);
 			return 1;
 		}
