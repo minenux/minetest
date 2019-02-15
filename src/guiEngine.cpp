@@ -273,6 +273,24 @@ void GUIEngine::run()
 	irr::core::dimension2d<u32> previous_screen_size(g_settings->getU16("screenW"),
 		g_settings->getU16("screenH"));
 
+	static const video::SColor sky_color(255, 140, 186, 250);
+
+	// Reset fog color
+	{
+		video::SColor fog_color;
+		video::E_FOG_TYPE fog_type = video::EFT_FOG_LINEAR;
+		f32 fog_start = 0;
+		f32 fog_end = 0;
+		f32 fog_density = 0;
+		bool fog_pixelfog = false;
+		bool fog_rangefog = false;
+		driver->getFog(fog_color, fog_type, fog_start, fog_end, fog_density,
+				fog_pixelfog, fog_rangefog);
+
+		driver->setFog(sky_color, fog_type, fog_start, fog_end, fog_density,
+				fog_pixelfog, fog_rangefog);
+	}
+
 	while (m_device->run() && (!m_startgame) && (!m_kill)) {
 
 		const irr::core::dimension2d<u32> &current_screen_size =
@@ -294,7 +312,7 @@ void GUIEngine::run()
 			text_height = g_fontengine->getTextHeight();
 		}
 
-		driver->beginScene(true, true, video::SColor(255,140,186,250));
+		driver->beginScene(true, true, sky_color);
 
 		if (m_clouds_enabled)
 		{
