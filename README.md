@@ -26,7 +26,7 @@ Table of Contents
 8. [Version Scheme](#version-scheme)
 
 
-Further documentation
+Further documentation (on "stock" Minetest)
 ----------------------
 - Website: http://minetest.net/
 - Wiki: http://wiki.minetest.net/
@@ -159,7 +159,7 @@ For Fedora users:
 
 Download source (this is the URL to the latest of source repository, which might not work at all times) using Git:
 
-    git clone --depth 1 https://github.com/minetest/minetest.git
+    git clone --depth 1 https://github.com/luk3yx/minetest.git
     cd minetest
 
 Download minetest_game (otherwise only the "Minimal development test" game is available) using Git:
@@ -168,7 +168,7 @@ Download minetest_game (otherwise only the "Minimal development test" game is av
 
 Download source, without using Git:
 
-    wget https://github.com/minetest/minetest/archive/master.tar.gz
+    wget https://github.com/luk3yx/minetest/archive/master.tar.gz
     tar xf master.tar.gz
     cd minetest-master
 
@@ -455,9 +455,9 @@ Open the generated Project file with VS. Right click "PACKAGE" and choose "Gener
 It may take some minutes to generate the installer.
 
 
-Docker
+Docker ("stock" Minetest)
 ------
-We provide Minetest server docker images using the Gitlab mirror registry.
+Minetest provides Minetest server docker images using the Gitlab mirror registry.
 
 Images are built on each commit and available using the following tag scheme:
 
