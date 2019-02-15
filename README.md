@@ -22,7 +22,7 @@ Table of Contents
 4. [Configuration File](#configuration-file)
 5. [Command-line Options](#command-line-options)
 6. [Compiling](#compiling)
-7. [Docker](#docker)
+7. [Docker](#docker-stock-minetest)
 8. [Version Scheme](#version-scheme)
 
 
