@@ -1,8 +1,11 @@
-<h1 align="center" class="text-center">
-    <img src="https://gitlab.com/luk3yx/minetest/raw/master/misc/minetest.svg" width="128" alt=" " />
-    <br/>
-    minetest-luk3yx-4
-</h1>
+<div align="center">
+    <h1>
+        <img src="https://gitlab.com/luk3yx/minetest/raw/master/misc/minetest.svg"
+            width="128" alt=" " />
+        <br/>
+        minetest-luk3yx-4
+    </h1>
+</div>
 
 A [Minetest](https://github.com/minetest/minetest) fork with backported features
 and bugfixes from 5.0.0.
