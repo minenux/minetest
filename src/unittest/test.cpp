@@ -22,7 +22,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "nodedef.h"
 #include "itemdef.h"
 #include "gamedef.h"
-#include "mods.h"
 #include "content/mods.h"
 #include "util/numeric.h"
 

@@ -52,7 +52,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "server.h"
 #include "settings.h"
 #include "sky.h"
-#include "subgame.h"
 #include "tool.h"
 #include "util/basic_macros.h"
 #include "util/directiontables.h"
