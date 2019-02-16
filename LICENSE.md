@@ -17,27 +17,30 @@ Everything not listed in here:
 Copyright © 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 ShadowNinja:
-  textures/base/pack/smoke_puff.png
+* textures/base/pack/smoke_puff.png
 
 paramat:
-  textures/base/pack/menu_header.png
+* textures/base/pack/menu_header.png
 
 erlehmann:
-  misc/minetest-icon-24x24.png
-  misc/minetest-icon.ico
-  misc/minetest.svg
-  textures/base/pack/logo.png
+* misc/minetest-icon-24x24.png
+* misc/minetest-icon.ico
+* misc/minetest.svg
+* textures/base/pack/logo.png
 
-JRottm
-  textures/base/pack/player_marker.png
+JRottm:
+* textures/base/pack/player_marker.png
 
-srifqi
-  textures/base/pack/chat_hide_btn.png
-  textures/base/pack/chat_show_btn.png
-  textures/base/pack/joystick_bg.png
-  textures/base/pack/joystick_center.png
-  textures/base/pack/joystick_off.png
-  textures/base/pack/minimap_btn.png
+srifqi:
+* textures/base/pack/chat_hide_btn.png
+* textures/base/pack/chat_show_btn.png
+* textures/base/pack/joystick_bg.png
+* textures/base/pack/joystick_center.png
+* textures/base/pack/joystick_off.png
+* textures/base/pack/minimap_btn.png
+
+[Edgy1](https://edgy1.net):
+* sounds/main_menu.ogg (originally created by [darkrose](https://gitlab.com/voxelands/voxelands/commit/58d9b384f307dd0e5441da1e6fa3ef080e01a5d1) for Voxelands and licensed under CC BY-SA 3.0 unported, bird sounds from [thearxx08 on Freesound](https://freesound.org/people/thearxx08/sounds/272417/)).
 
 License of Minetest source code
 -------------------------------
