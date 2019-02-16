@@ -1,4 +1,4 @@
-<h1 align="center">
+<h1 align="center" class="text-center">
     <img src="https://gitlab.com/luk3yx/minetest/raw/master/misc/minetest.svg" width="128" alt=" " />
     <br/>
     minetest-luk3yx-4
