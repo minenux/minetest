@@ -33,8 +33,6 @@ local function get_formspec(data)
 
 	local hard_deps, soft_deps = pkgmgr.get_dependencies(mod.path)
 
-<<<<<<< HEAD
-=======
 	if mod.is_modpack or mod.type == "game" then
 		local info = minetest.formspec_escape(
 			core.get_content_info(mod.path).description)
@@ -58,15 +56,8 @@ local function get_formspec(data)
 			"textlist[0,4.375;5,1.8;world_config_optdepends;" ..
 			soft_deps .. ";0]"
 	end
->>>>>>> e8eaab64... Improve world configure menu (#7922)
+
 	retval = retval ..
-		"label[0,0.7;" .. fgettext("Mod:") .. "]" ..
-		"label[0.75,0.7;" .. mod.name .. "]" ..
-		"label[0,1.25;" .. fgettext("Dependencies:") .. "]" ..
-		"textlist[0,1.75;5,2.125;world_config_depends;" .. hard_deps .. ";0]" ..
-		"label[0,3.875;" .. fgettext("Optional dependencies:") .. "]" ..
-		"textlist[0,4.375;5,1.8;world_config_optdepends;" ..
-		soft_deps .. ";0]" ..
 		"button[3.25,7;2.5,0.5;btn_config_world_save;" ..
 		fgettext("Save") .. "]" ..
 		"button[5.75,7;2.5,0.5;btn_config_world_cancel;" ..
