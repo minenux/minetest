@@ -1,5 +1,8 @@
-minetest-luk3yx-4
-========
+<h1 align="center">
+    <img src="https://gitlab.com/luk3yx/minetest/raw/master/misc/minetest.svg" width="128" alt=" " />
+    <br/>
+    minetest-luk3yx-4
+</h1>
 
 A [Minetest](https://github.com/minetest/minetest) fork with backported features
 and bugfixes from 5.0.0.
