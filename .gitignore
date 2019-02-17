@@ -39,7 +39,7 @@ gtags.files
 /textures/*
 !/textures/base/
 /screenshots
-/sounds
+#/sounds
 /mods/*
 !/mods/minetest/
 /mods/minetest/*
