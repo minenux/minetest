@@ -18,6 +18,8 @@ Copyright © 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 [Edgy1]:
 * sounds/main_menu.ogg (originally created by [darkrose](https://gitlab.com/voxelands/voxelands/commit/58d9b384f307dd0e5441da1e6fa3ef080e01a5d1) for Voxelands and licensed under CC BY-SA 3.0 unported, bird sounds from [thearxx08 on Freesound](https://freesound.org/people/thearxx08/sounds/272417/)).
+* textures/base/pack/menu_header.png
+* textures/base/pack/menu_overlay.png
 
 erlehmann, modified by [Edgy1]:
 * misc/minetest-icon-24x24.png
@@ -27,9 +29,6 @@ erlehmann, modified by [Edgy1]:
 
 JRottm:
 * textures/base/pack/player_marker.png
-
-paramat:
-* textures/base/pack/menu_header.png
 
 ShadowNinja:
 * textures/base/pack/smoke_puff.png
