@@ -16,10 +16,10 @@ Authors of media files
 Everything not listed in here:
 Copyright © 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
 
-[Edgy1](https://edgy1.net):
+[Edgy1]:
 * sounds/main_menu.ogg (originally created by [darkrose](https://gitlab.com/voxelands/voxelands/commit/58d9b384f307dd0e5441da1e6fa3ef080e01a5d1) for Voxelands and licensed under CC BY-SA 3.0 unported, bird sounds from [thearxx08 on Freesound](https://freesound.org/people/thearxx08/sounds/272417/)).
 
-erlehmann:
+erlehmann, modified by [Edgy1]:
 * misc/minetest-icon-24x24.png
 * misc/minetest-icon.ico
 * misc/minetest.svg
@@ -41,6 +41,8 @@ srifqi:
 * textures/base/pack/joystick_center.png
 * textures/base/pack/joystick_off.png
 * textures/base/pack/minimap_btn.png
+
+[Edgy1]: https://edgy1.net
 
 License of Minetest source code
 -------------------------------
