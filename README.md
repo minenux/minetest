@@ -10,8 +10,10 @@
 A [Minetest](https://github.com/minetest/minetest) fork with backported features
 and bugfixes from 5.0.0.
 
-Copyright (C) 2010-2019 Perttu Ahola <celeron55@gmail.com>
-and contributors (see source file comments and the version control log)
+Minetest is copyright © 2010-2019 by Perttu Ahola <celeron55@gmail.com>
+and contributors (see source file comments and the [version control log])
+
+[version control log]: https://github.com/luk3yx/minetest/graphs/contributors
 
 In case you downloaded the source code:
 ---------------------------------------
