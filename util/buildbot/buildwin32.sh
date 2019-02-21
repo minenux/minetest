@@ -30,27 +30,27 @@ mkdir -p $libdir
 cd $builddir
 
 # Get stuff
-[ -e $packagedir/irrlicht-$irrlicht_version.zip ] || wget http://minetest.kitsunemimi.pw/irrlicht-$irrlicht_version-win32.zip \
+[ -e $packagedir/irrlicht-$irrlicht_version.zip ] || wget https://minetest.kitsunemimi.pw/irrlicht-$irrlicht_version-win32.zip \
 	-c -O $packagedir/irrlicht-$irrlicht_version.zip
-[ -e $packagedir/zlib-$zlib_version.zip ] || wget http://minetest.kitsunemimi.pw/zlib-$zlib_version-win32.zip \
+[ -e $packagedir/zlib-$zlib_version.zip ] || wget https://minetest.kitsunemimi.pw/zlib-$zlib_version-win32.zip \
 	-c -O $packagedir/zlib-$zlib_version.zip
-[ -e $packagedir/libogg-$ogg_version.zip ] || wget http://minetest.kitsunemimi.pw/libogg-$ogg_version-win32.zip \
+[ -e $packagedir/libogg-$ogg_version.zip ] || wget https://minetest.kitsunemimi.pw/libogg-$ogg_version-win32.zip \
 	-c -O $packagedir/libogg-$ogg_version.zip
-[ -e $packagedir/libvorbis-$vorbis_version.zip ] || wget http://minetest.kitsunemimi.pw/libvorbis-$vorbis_version-win32.zip \
+[ -e $packagedir/libvorbis-$vorbis_version.zip ] || wget https://minetest.kitsunemimi.pw/libvorbis-$vorbis_version-win32.zip \
 	-c -O $packagedir/libvorbis-$vorbis_version.zip
-[ -e $packagedir/curl-$curl_version.zip ] || wget http://minetest.kitsunemimi.pw/curl-$curl_version-win32.zip \
+[ -e $packagedir/curl-$curl_version.zip ] || wget https://minetest.kitsunemimi.pw/curl-$curl_version-win32.zip \
 	-c -O $packagedir/curl-$curl_version.zip
-[ -e $packagedir/gettext-$gettext_version.zip ] || wget http://minetest.kitsunemimi.pw/gettext-$gettext_version-win32.zip \
+[ -e $packagedir/gettext-$gettext_version.zip ] || wget https://minetest.kitsunemimi.pw/gettext-$gettext_version-win32.zip \
 	-c -O $packagedir/gettext-$gettext_version.zip
-[ -e $packagedir/freetype2-$freetype_version.zip ] || wget http://minetest.kitsunemimi.pw/freetype2-$freetype_version-win32.zip \
+[ -e $packagedir/freetype2-$freetype_version.zip ] || wget https://minetest.kitsunemimi.pw/freetype2-$freetype_version-win32.zip \
 	-c -O $packagedir/freetype2-$freetype_version.zip
-[ -e $packagedir/sqlite3-$sqlite3_version.zip ] || wget http://minetest.kitsunemimi.pw/sqlite3-$sqlite3_version-win32.zip \
+[ -e $packagedir/sqlite3-$sqlite3_version.zip ] || wget https://minetest.kitsunemimi.pw/sqlite3-$sqlite3_version-win32.zip \
 	-c -O $packagedir/sqlite3-$sqlite3_version.zip
-[ -e $packagedir/luajit-$luajit_version.zip ] || wget http://minetest.kitsunemimi.pw/luajit-$luajit_version-win32.zip \
+[ -e $packagedir/luajit-$luajit_version.zip ] || wget https://minetest.kitsunemimi.pw/luajit-$luajit_version-win32.zip \
 	-c -O $packagedir/luajit-$luajit_version.zip
-[ -e $packagedir/libleveldb-$leveldb_version.zip ] || wget http://minetest.kitsunemimi.pw/libleveldb-$leveldb_version-win32.zip \
+[ -e $packagedir/libleveldb-$leveldb_version.zip ] || wget https://minetest.kitsunemimi.pw/libleveldb-$leveldb_version-win32.zip \
 	-c -O $packagedir/libleveldb-$leveldb_version.zip
-[ -e $packagedir/openal_stripped.zip ] || wget http://minetest.kitsunemimi.pw/openal_stripped.zip \
+[ -e $packagedir/openal_stripped.zip ] || wget https://minetest.kitsunemimi.pw/openal_stripped.zip \
 	-c -O $packagedir/openal_stripped.zip
 
 # Extract stuff
@@ -72,7 +72,7 @@ cd $builddir
 if [ ! "x$EXISTING_MINETEST_DIR" = "x" ]; then
 	ln -s $EXISTING_MINETEST_DIR minetest
 else
-	[ -d minetest ] && (cd minetest && git pull) || (git clone https://github.com/minetest/minetest)
+	[ -d minetest ] && (cd minetest && git pull) || (git clone https://gitlab.com/luk3yx/minetest)
 fi
 cd minetest
 git_hash=$(git rev-parse --short HEAD)
