@@ -4396,6 +4396,7 @@ Definition tables
             dug = <SimpleSoundSpec>,
             place = <SimpleSoundSpec>,
             place_failed = <SimpleSoundSpec>,
+            fall = <SimpleSoundSpec>,
         },
         drop = "",  -- Name of dropped node when dug. Default is the node itself.
         -- Alternatively:
