@@ -18,7 +18,7 @@ set(CLANG_MINIMUM_VERSION "3.4")
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 4)
 set(VERSION_PATCH 18)
-set(VERSION_TWEAK 4)
+set(VERSION_TWEAK 5)
 set(VERSION_EXTRA "" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
