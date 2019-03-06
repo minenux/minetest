@@ -4384,6 +4384,7 @@ void Game::updateGui(const RunStats &stats, f32 dtime, const CameraOrientation &
 			<< ", " << (player_position.Z / BS)
 			<< "), yaw: " << (wrapDegrees_0_360(cam.camera_yaw)) << "° "
 			<< yawToDirectionString(cam.camera_yaw)
+			<< ", pitch: " << (wrapDegrees_180(cam.camera_pitch)) << "°"
 			<< ", seed: " << ((u64)client->getMapSeed());
 
 		if (runData.pointed_old.type == POINTEDTHING_NODE) {
