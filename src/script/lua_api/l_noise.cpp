@@ -35,6 +35,9 @@ LuaPerlinNoise::LuaPerlinNoise(NoiseParams *params) :
 {
 }
 
+LuaPerlinNoise::~LuaPerlinNoise()
+{
+}
 
 int LuaPerlinNoise::l_get_2d(lua_State *L)
 {

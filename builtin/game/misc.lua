@@ -187,3 +187,5 @@ function core.cancel_shutdown_requests()
 	core.request_shutdown("", false, -1)
 end
 
+local function dummy_func() end
+core.get_biome_data = dummy_func
