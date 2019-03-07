@@ -75,13 +75,13 @@
 #    type: bool
 # always_fly_fast = true
 
-#    Automatically jump up single-node obstacles.
-#    type: bool
-# autojump = false
-
 #    The time in seconds it takes between repeated right clicks when holding the right mouse button.
 #    type: float
 # repeat_rightclick_time = 0.25
+
+#    Automatically jump up single-node obstacles.
+#    type: bool
+# autojump = false
 
 #    Prevent digging and placing from repeating when holding the mouse buttons.
 #    Enable this when you dig or place too often by accident.
@@ -556,9 +556,20 @@
 #    type: int
 # pause_fps_max = 20
 
+#    Open the pause menu when the window's focus is lost. Does not pause if a formspec is open.
+#    type: bool
+# pause_on_lost_focus = true
+
 #    View distance in nodes.
 #    type: int min: 20 max: 4000
 # viewing_range = 100
+
+#    Camera near plane distance in nodes, between 0 and 0.5
+#    Most users will not need to change this.
+#    Increasing can reduce artifacting on weaker GPUs.
+#    0.1 = Default, 0.25 = Good value for weaker tablets.
+#    type: float min: 0 max: 0.5
+# near_plane = 0.1
 
 #    Width component of the initial window size.
 #    type: int
@@ -1843,3 +1854,20 @@
 #    Print the engine's profiling data in regular intervals (in seconds). 0 = disable. Useful for developers.
 #    type: int
 # profiler_print_interval = 0
+
+#
+# Content Store
+#
+
+#    The URL for the content repository
+#    type: string
+# contentdb_url = https://content.minetest.net
+
+#    Comma-separated list of flags to hide in the content repository.
+#    "nonfree" can be used to hide packages which do not qualify as 'free software',
+#    as defined by the Free Software Foundation.
+#    You can also specify content ratings.
+#    These flags are independent from Minetest versions,
+#    so see a full list at https://content.minetest.net/help/content_flags/
+#    type: string
+# contentdb_flag_blacklist = nonfree, desktop_default
