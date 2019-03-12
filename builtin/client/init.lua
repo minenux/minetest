@@ -11,7 +11,7 @@ dofile(commonpath .. "vector.lua")
 
 core.register_on_death(function()
 	core.display_chat_message("You died.")
-	local formspec = "size[11,5.5]bgcolor[#320000b4;true]" ..
+	local formspec = "size[11,5.5]bgcolor[#320000b4;true]no_prepend[]" ..
 	"label[4.85,1.35;" .. fgettext("You died.") .. "]button_exit[4,3;3,0.5;btn_respawn;".. fgettext("Respawn") .."]"
 	core.show_formspec("bultin:death", formspec)
 end)

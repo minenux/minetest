@@ -127,7 +127,17 @@ int ModApiClient::l_show_formspec(lua_State *L)
 	ClientEvent event;
 	event.type = CE_SHOW_LOCAL_FORMSPEC;
 	event.show_formspec.formname = new std::string(luaL_checkstring(L, 1));
-	event.show_formspec.formspec = new std::string(luaL_checkstring(L, 2));
+
+	std::string formspec = luaL_checkstring(L, 2);
+
+	if (formspec.find("no_prepend[]") == std::string::npos) {
+		event.show_formspec.formspec = new std::string(formspec
+			+ "bgcolor[#080808BB;true]"
+			+ "background[5,5;1,1;builtin_gui_formbg.png;true]"
+			+ "listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]");
+	} else {
+		event.show_formspec.formspec = new std::string(formspec);
+	}
 	getClient(L)->pushToEventQueue(event);
 	lua_pushboolean(L, true);
 	return 1;
