@@ -81,7 +81,7 @@ git_hash=$(git rev-parse --short HEAD)
 # Get minetest_game
 cd games
 if [ "x$NO_MINETEST_GAME" = "x" ]; then
-	[ -d minetest_game ] && (cd minetest_game && git pull) || (git clone https://github.com/minetest/minetest_game)
+	[ -d minetest_game ] && (cd minetest_game && git pull) || (git clone https://gitlab.com/luk3yx/minetest_game)
 	(cd minetest_game && git checkout stable-0.4)
 fi
 cd ../..

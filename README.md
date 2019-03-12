@@ -18,8 +18,8 @@ and contributors (see source file comments and the [version control log])
 In case you downloaded the source code:
 ---------------------------------------
 If you downloaded the Minetest Engine source code in which this file is
-contained, you probably want to download the [Minetest Game](https://github.com/minetest/minetest_game/)
-project too. See its README.txt for more information.
+contained, you probably want to download the [Minetest Game fork](https://github.com/luk3yx/minetest_game/)
+(or the [original](https://github.com/minetest/minetest_game))project too. See its README.txt for more information.
 
 Table of Contents
 ------------------
@@ -172,7 +172,7 @@ Download source (this is the URL to the latest of source repository, which might
 
 Download minetest_game (otherwise only the "Minimal development test" game is available) using Git:
 
-    git clone --depth 1 https://github.com/minetest/minetest_game.git games/minetest_game
+    git clone --depth 1 https://github.com/luk3yx/minetest_game.git games/minetest_game
 
 Download source, without using Git:
 
@@ -183,7 +183,7 @@ Download source, without using Git:
 Download minetest_game, without using Git:
 
     cd games/
-    wget https://github.com/minetest/minetest_game/archive/master.tar.gz
+    wget https://github.com/luk3yx/minetest_game/archive/master.tar.gz
     tar xf master.tar.gz
     mv minetest_game-master minetest_game
     cd ..
@@ -296,7 +296,7 @@ Library specific options:
 ### Compiling on Windows
 
 * This section is outdated. In addition to what is described here:
-  * In addition to minetest, you need to download [minetest_game](https://github.com/minetest/minetest_game).
+  * In addition to minetest, you need to download [minetest_game](https://github.com/luk3yx/minetest_game).
   * If you wish to have sound support, you need libogg, libvorbis and libopenal
 
 * You need:
