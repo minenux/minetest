@@ -17,7 +17,7 @@ Everything not listed in here:
 Copyright © 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 BlockMen, modified by davidgumberg and kilbith:
-* textures/base/pack/gui_formbg.png
+* textures/base/pack/builtin_gui_formbg.png
 
 [Edgy1]:
 * sounds/main_menu.ogg (originally created by [darkrose](https://gitlab.com/voxelands/voxelands/commit/58d9b384f307dd0e5441da1e6fa3ef080e01a5d1) for Voxelands and licensed under CC BY-SA 3.0 unported, bird sounds from [thearxx08 on Freesound](https://freesound.org/people/thearxx08/sounds/272417/)).
