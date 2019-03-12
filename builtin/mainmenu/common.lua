@@ -334,3 +334,17 @@ function menu_worldmt_legacy(selected)
 		end
 	end
 end
+
+-- Start/stop the main menu music
+local music_playing = false
+function menu_music()
+	local music_enabled = core.settings:get_bool("main_menu_music")
+	if music_playing then
+		if not music_enabled then
+			core.sound_stop(music_playing)
+			music_playing = false
+		end
+	elseif music_enabled then
+		music_playing = core.sound_play("main_menu", true)
+	end
+end

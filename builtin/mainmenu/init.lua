@@ -153,7 +153,7 @@ local function init_globals()
 
 	ui.update()
 
-	core.sound_play("main_menu", true)
+	menu_music()
 end
 
 init_globals()

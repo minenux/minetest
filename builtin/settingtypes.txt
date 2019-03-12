@@ -102,7 +102,6 @@ always_fly_fast (Always fly and fast) bool true
 repeat_rightclick_time (Rightclick repetition interval) float 0.25
 
 #    Automatically jump up single-node obstacles.
-#    type: bool
 autojump (Automatic jumping) bool false
 
 #    Prevent digging and placing from repeating when holding the mouse buttons.
@@ -707,6 +706,9 @@ enable_console (Enable console window) bool false
 enable_sound (Sound) bool true
 
 sound_volume (Volume) float 0.7 0.0 1.0
+
+#    Play main_menu.ogg while the main menu is open.
+main_menu_music (Main menu music) bool true
 
 [*Advanced]
 

@@ -745,6 +745,7 @@ local function handle_settings_buttons(this, fields, tabname, tabdata)
 
 	if fields["btn_back"] then
 		this:delete()
+		menu_music()
 		return true
 	end
 

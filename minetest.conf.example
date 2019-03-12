@@ -847,6 +847,10 @@
 #    type: float min: 0 max: 1
 # sound_volume = 0.7
 
+#    Play main_menu.ogg while the main menu is open.
+#    type: bool
+# main_menu_music = true
+
 ## Advanced
 
 #    Timeout for client to remove unused map data from memory.
