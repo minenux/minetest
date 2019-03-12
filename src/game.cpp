@@ -4636,7 +4636,8 @@ void Game::showPauseMenu()
 	float ypos = simple_singleplayer_mode ? 0.7f : 0.1f;
 	std::ostringstream os;
 
-	os << FORMSPEC_VERSION_STRING  << SIZE_TAG
+	os << FORMSPEC_VERSION_STRING << SIZE_TAG
+		<< "bgcolor[#080808BB;true]background[5,5;1,1;gui_formbg.png;true]"
 		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_continue;"
 		<< strgettext("Continue") << "]";
 
