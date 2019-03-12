@@ -164,6 +164,7 @@ public:
 	u16 peer_id;
 
 	std::string inventory_formspec;
+	std::string formspec_prepend;
 
 	PlayerControl control;
 	const PlayerControl& getPlayerControl() { return control; }

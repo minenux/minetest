@@ -1673,11 +1673,20 @@ void Server::SendShowFormspecMessage(u16 peer_id, const std::string &formspec,
 	DSTACK(FUNCTION_NAME);
 
 	NetworkPacket pkt(TOCLIENT_SHOW_FORMSPEC, 0 , peer_id);
-	if (formspec == "" ){
-		//the client should close the formspec
+	if (formspec == "") {
+		// The client should close the formspec.
 		pkt.putLongString("");
 	} else {
-		pkt.putLongString(FORMSPEC_VERSION_STRING + formspec);
+		// Get the formspec prepend.
+		RemotePlayer *player = m_env->getPlayer(peer_id);
+		if (player->peer_id == PEER_ID_INEXISTENT) {
+			return;
+		} else if (formspec.find("no_prepend[]") == std::string::npos) {
+			pkt.putLongString(FORMSPEC_VERSION_STRING + formspec +
+				player->formspec_prepend);
+		} else {
+			pkt.putLongString(FORMSPEC_VERSION_STRING + formspec);
+		}
 	}
 	pkt << formname;
 
@@ -2019,7 +2028,14 @@ void Server::SendPlayerInventoryFormspec(u16 peer_id)
 		return;
 
 	NetworkPacket pkt(TOCLIENT_INVENTORY_FORMSPEC, 0, peer_id);
-	pkt.putLongString(FORMSPEC_VERSION_STRING + player->inventory_formspec);
+
+	if (player->inventory_formspec.find("no_prepend[]") == std::string::npos) {
+		pkt.putLongString(FORMSPEC_VERSION_STRING + player->inventory_formspec +
+			player->formspec_prepend);
+	} else {
+		pkt.putLongString(FORMSPEC_VERSION_STRING + player->inventory_formspec);
+	}
+
 	Send(&pkt);
 }
 
@@ -2282,7 +2298,14 @@ void Server::SendBlockNoLock(u16 peer_id, MapBlock *block, u8 ver, u16 net_proto
 	*/
 
 	std::ostringstream os(std::ios_base::binary);
-	block->serialize(os, ver, false);
+
+	RemotePlayer *player = m_env->getPlayer(peer_id);
+	if (player->peer_id == PEER_ID_INEXISTENT) {
+		block->serialize(os, ver, false);
+	} else {
+		block->serialize(os, ver, false, player->formspec_prepend);
+	}
+
 	block->serializeNetworkSpecific(os);
 	std::string s = os.str();
 

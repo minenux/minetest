@@ -553,7 +553,8 @@ static void correctBlockNodeIds(const NameIdMapping *nimap, MapNode *nodes,
 	}
 }
 
-void MapBlock::serialize(std::ostream &os, u8 version, bool disk)
+void MapBlock::serialize(std::ostream &os, u8 version, bool disk,
+	std::string formspec_prepend)
 {
 	if(!ser_ver_supported(version))
 		throw VersionMismatchException("ERROR: MapBlock format not supported");
@@ -611,7 +612,7 @@ void MapBlock::serialize(std::ostream &os, u8 version, bool disk)
 		Node metadata
 	*/
 	std::ostringstream oss(std::ios_base::binary);
-	m_node_metadata.serialize(oss, version, disk);
+	m_node_metadata.serialize(oss, version, disk, formspec_prepend);
 	compressZlib(oss.str(), os);
 
 	/*
