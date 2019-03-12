@@ -16,8 +16,17 @@ dofile(minetest.get_modpath("default").."/mapgen.lua")
 
 -- Set a noticeable inventory formspec for players
 minetest.register_on_joinplayer(function(player)
+	player:set_formspec_prepend([[
+			bgcolor[#080808BB;true]
+			background[5,5;1,1;gui_formbg.png;true]
+			listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF] ]])
+
 	local cb = function(player)
-		minetest.chat_send_player(player:get_player_name(), "This is the [minimal] \"Minimal Development Test\" game. Use [minetest_game] for the real thing.")
+		minetest.chat_send_player(player:get_player_name(),
+			minetest.colorize('#cccc22',
+				"This is the [minimal] \"Minimal Development Test\" game. "
+				.. "Use [minetest_game] for the real thing."))
+
 		player:set_attribute("test_attribute", "test_me")
 		player:set_attribute("remove_this", nil)
 	end
@@ -1895,4 +1904,3 @@ test_get_craft_result()
 --dump2(minetest.registered_entities)
 
 -- END
-
