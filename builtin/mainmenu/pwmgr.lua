@@ -20,7 +20,7 @@
 
 pwmgr = {}
 
-local db = Settings(core.get_modpath() .. DIR_DELIM .. '..' .. DIR_DELIM ..
+local db = Settings(core.get_modpath() .. DIR_DELIM .. ".." .. DIR_DELIM ..
 	".saved_passwords")
 
 -- Convert to/from the weird .conf-safe format
