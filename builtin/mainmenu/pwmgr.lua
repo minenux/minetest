@@ -24,12 +24,24 @@ local db_path = core.get_modpath() .. DIR_DELIM .. ".." .. DIR_DELIM ..
 	".saved_passwords"
 local db = {}
 
--- Get a config entry name
-local function get_conf_entry(data)
+-- Convert a gamedata table to a key
+local function gamedata_to_key(data)
 	data = data or gamedata
 	return "P" .. tonumber(data.port)     .. " "
 		.. data.playername:gsub(" ", "_") .. " "
 		.. data.address
+end
+
+-- Convert a table key back to a gamedata table
+local function key_to_gamedata(key)
+	local port, name, address = key:match("^P([0-9]+) ([^ ]+) (.*)$")
+	port = tonumber(port)
+	if not port or port ~= port or not name or not address then return end
+	return {
+		address    = address,
+		port       = port,
+		playername = name
+	}
 end
 
 -- Load the database
@@ -66,14 +78,15 @@ end
 -- Get and set passwords
 function pwmgr.get_password(data)
 	load_db()
-	local pw = db[get_conf_entry(data)]
+	if type(data) ~= "string" then data = gamedata_to_key(data) end
+	local pw = db[data]
 	if type(pw) == "string" and pw ~= "" then
 		return pw
 	end
 end
 
 function pwmgr.set_password(data, new_pw)
-	if not new_pw then
+	if new_pw == nil then
 		if type(data) == "table" then
 			new_pw = data.password
 		else
@@ -84,8 +97,23 @@ function pwmgr.set_password(data, new_pw)
 	end
 
 	load_db()
-	db[get_conf_entry(data)] = new_pw
+	db[gamedata_to_key(data)] = new_pw or nil
 	save_db()
+end
+
+-- List passwords
+function pwmgr.list_passwords()
+	load_db()
+	local res = {}
+	for k, pw in pairs(db) do
+		local data = key_to_gamedata(k)
+		if data and pw then
+			data.raw      = k
+			data.password = pw
+			res[#res + 1] = data
+		end
+	end
+	return res
 end
 
 -- Get the disable confirmation dialog
@@ -166,7 +194,11 @@ end
 
 function pwmgr.prejoin(this)
 	local port = tonumber(gamedata.port)
-	if not port or port ~= port or gamedata.playername:find(" ") then return end
+	if not port or port ~= port or gamedata.playername:find(" ") or
+			gamedata.playername == "" or gamedata.address == "" or
+			not gamedata.playername or not gamedata.address then
+		return
+	end
 
 	if not gamedata.password or gamedata.password == "" then
 		gamedata.password = pwmgr.get_password()
@@ -183,4 +215,10 @@ function pwmgr.prejoin(this)
 		dlg:show()
 		return true
 	end
+end
+
+-- Wrapper
+function pwmgr.display_manager(...)
+	dofile(core.get_mainmenu_path() .. DIR_DELIM .. "dlg_pwmgr_manage.lua")
+	return pwmgr.display_manager(...)
 end

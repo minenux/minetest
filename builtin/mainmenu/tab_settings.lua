@@ -234,6 +234,12 @@ local function formspec(tabview, name, tabdata)
 		"button[0,4.75;3.95,1;btn_advanced_settings;"
 		.. fgettext("All Settings") .. "]"
 
+	local enable_pwmgr = core.settings:get_bool("enable_pwmgr")
+	if enable_pwmgr or enable_pwmgr == nil then
+		tab_string = tab_string ..
+			"button[4,4.75;3.95,1;pwmgr;"
+			.. fgettext("Saved passwords") .. "]"
+	end
 
 	if core.settings:get("touchscreen_threshold") ~= nil then
 		tab_string = tab_string ..
@@ -362,6 +368,14 @@ local function handle_settings_buttons(this, fields, tabname, tabdata)
 	if fields["btn_reset_singleplayer"] then
 		showconfirm_reset(this)
 		return true
+	end
+	if fields["pwmgr"] then
+		local enable_pwmgr = core.settings:get_bool("enable_pwmgr")
+		if not enable_pwmgr and enable_pwmgr ~= nil then return end
+		if not rawget(_G, "pwmgr") then
+			dofile(core.get_mainmenu_path() .. DIR_DELIM .. "pwmgr.lua")
+		end
+		if pwmgr.display_manager(this) then return true end
 	end
 
 	--Note dropdowns have to be handled LAST!
