@@ -866,6 +866,10 @@
 #    type: bool
 # show_debug = false
 
+#    Enable the password manager. Note that this stores passwords in plaintext.
+#    type: bool
+# enable_pwmgr = true
+
 #
 # Server / Singleplayer
 #

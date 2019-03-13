@@ -231,6 +231,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("main_menu_mod_mgr", "1");
 	settings->setDefault("main_menu_game_mgr", "0");
 	settings->setDefault("main_menu_music", "true");
+	settings->setDefault("enable_pwmgr", "true");
 	settings->setDefault("serverlist_file", "favoriteservers.txt");
 
 #if USE_FREETYPE

@@ -363,6 +363,8 @@ fake_function() {
 	gettext("Maximum number of mapblocks for client to be kept in memory.\nSet to -1 for unlimited amount.");
 	gettext("Show debug info");
 	gettext("Whether to show the client debug info (has the same effect as hitting F5).");
+	gettext("Password manager");
+	gettext("Enable the password manager. Note that this stores passwords in plaintext.");
 	gettext("Server / Singleplayer");
 	gettext("Server name");
 	gettext("Name of the server, to be displayed when players join and in the serverlist.");
@@ -409,8 +411,6 @@ fake_function() {
 	gettext("World directory (everything in the world is stored here).\nNot needed if starting from the main menu.");
 	gettext("Item entity TTL");
 	gettext("Time in seconds for item entity (dropped items) to live.\nSetting it to -1 disables the feature.");
-	gettext("Status message on connection");
-	gettext("If enabled, show the server status message on player connection.");
 	gettext("Damage");
 	gettext("Enable players getting damage and dying.");
 	gettext("Creative");
