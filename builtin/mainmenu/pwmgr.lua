@@ -20,40 +20,55 @@
 
 pwmgr = {}
 
-local db = Settings(core.get_modpath() .. DIR_DELIM .. ".." .. DIR_DELIM ..
-	".saved_passwords")
-
--- Convert to/from the weird .conf-safe format
-local function conf_escape(text)
-	local res = tostring(text):gsub("[^A-Za-z0-9]", function(char)
-		return "_" .. string.byte(char) .. "_"
-	end)
-	return res
-end
-
-local function conf_unescape(text)
-	local res = text:gsub("_[0-9]+_", function(esc)
-		return string.char(tonumber(esc:sub(2, #esc - 1))) or esc
-	end)
-	return res
-end
+local db_path = core.get_modpath() .. DIR_DELIM .. ".." .. DIR_DELIM ..
+	".saved_passwords"
+local db = {}
 
 -- Get a config entry name
 local function get_conf_entry(data)
 	data = data or gamedata
-	return "pwmgr.plaintext"
-		.. "." .. conf_escape(data.address)
-		.. "." .. conf_escape(data.port)
-		.. "." .. conf_escape(data.playername or data.name)
+	return "P" .. tonumber(data.port)     .. " "
+		.. data.playername:gsub(" ", "_") .. " "
+		.. data.address
+end
+
+-- Load the database
+local function load_db()
+	local f = io.open(db_path, "rb")
+	if not f then return end
+
+	local data = f:read()
+	f:close()
+
+	data = core.deserialize(data)
+	if type(data) == "table" then
+		db = data
+		return true
+	end
+end
+
+-- Save the database
+local function save_db()
+	local data = core.serialize(db)
+	if not data then return end
+
+	if core.safe_write_file then
+		return core.safe_write_file(db_path, data)
+	end
+
+	local f = io.open(db_path, "wb")
+	if not f then return end
+	f:write(data)
+	f:close()
+	return true
 end
 
 -- Get and set passwords
 function pwmgr.get_password(data)
-	local pw = db:get(get_conf_entry(data))
-	if type(pw) ~= "string" or pw == "" then
-		return
-	else
-		return conf_unescape(pw)
+	load_db()
+	local pw = db[get_conf_entry(data)]
+	if type(pw) == "string" and pw ~= "" then
+		return pw
 	end
 end
 
@@ -67,8 +82,10 @@ function pwmgr.set_password(data, new_pw)
 		new_pw = data or gamedata.password
 		data   = false
 	end
-	db:set(get_conf_entry(data), conf_escape(new_pw))
-	db:write()
+
+	load_db()
+	db[get_conf_entry(data)] = new_pw
+	save_db()
 end
 
 -- Get the disable confirmation dialog
@@ -148,6 +165,9 @@ local function get_prejoin_buttonhandler(this, fields)
 end
 
 function pwmgr.prejoin(this)
+	local port = tonumber(gamedata.port)
+	if not port or port ~= port or gamedata.playername:find(" ") then return end
+
 	if not gamedata.password or gamedata.password == "" then
 		gamedata.password = pwmgr.get_password()
 		if not gamedata.password or gamedata.password == "" then
