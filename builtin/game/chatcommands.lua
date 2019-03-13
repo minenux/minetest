@@ -66,9 +66,19 @@ local function parse_range_str(player_name, str)
 	return p1, p2
 end
 
+-- Chatcommand aliases
+local function register_chatcommand_alias(new, old)
+	local def = assert(core.registered_chatcommands[old])
+	assert(not core.registered_chatcommands[new])
+
+	core.registered_chatcommands[new] = def
+end
+core._register_chatcommand_alias = register_chatcommand_alias
+
 --
 -- Chat commands
 --
+
 core.register_chatcommand("me", {
 	params = "<action>",
 	description = "Display chat action (e.g., '/me orders a pizza' displays"
@@ -125,11 +135,12 @@ core.register_chatcommand("haspriv", {
 			if core.check_player_privs(player_name, privs) then
 				table.insert(players_with_priv, player_name)
 			end
-		end	
+		end
 		return true, "Players online with the \"" .. param .. "\" privilege: " ..
 			table.concat(players_with_priv, ", ")
-	end	
+	end
 })
+register_chatcommand_alias("hasprivs", "haspriv")
 
 local function handle_grant_command(caller, grantname, grantprivstr)
 	local caller_privs = minetest.get_player_privs(caller)
@@ -448,6 +459,7 @@ core.register_chatcommand("teleport", {
 				.. '") or player not found (see /help teleport)'
 	end,
 })
+register_chatcommand_alias("tp", "teleport")
 
 core.register_chatcommand("set", {
 	params = "[-n] <name> <value> | <name>",
