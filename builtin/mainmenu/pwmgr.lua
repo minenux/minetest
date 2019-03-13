@@ -84,7 +84,7 @@ end
 local function get_disable_confirm_buttonhandler(this, fields)
 	if fields.pwd_confirm_disable then
 		-- Don't load pwmgr later
-		core.settings:set_bool("pwmgr.enable", false)
+		core.settings:set_bool("enable_pwmgr", false)
 		core.settings:write()
 
 		-- Delete the "pwmgr" global variable

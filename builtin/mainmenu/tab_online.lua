@@ -331,7 +331,8 @@ local function main_button_handler(tabview, fields, name, tabdata)
 		core.settings:set("address",     fields.te_address)
 		core.settings:set("remote_port", fields.te_port)
 
-		if core.settings:get_bool("enable_pwmgr") then
+		local enable_pwmgr = core.settings:get_bool("enable_pwmgr")
+		if enable_pwmgr or enable_pwmgr == nil then
 			if not rawget(_G, "pwmgr") then
 				dofile(core.get_mainmenu_path() .. DIR_DELIM .. "pwmgr.lua")
 			end
