@@ -71,6 +71,38 @@ function pwmgr.set_password(data, new_pw)
 	db:write()
 end
 
+-- Get the disable confirmation dialog
+local function get_disable_confirm_formspec()
+	return "size[10,2.75,true]" ..
+			"label[0.5,0.5;Disable the password manager?\n"
+				.. "You can re-enable it at any time in \"All Settings\".]" ..
+			"button[0.5,2;2.5,0.5;pwd_confirm_disable;" .. fgettext("Disable")
+				.. "]" ..
+			"button[7,2;2.5,0.5;pwd_back;" .. fgettext("Cancel") .. "]"
+end
+
+local function get_disable_confirm_buttonhandler(this, fields)
+	if fields.pwd_confirm_disable then
+		-- Don't load pwmgr later
+		core.settings:set_bool("pwmgr.enable", false)
+		core.settings:write()
+
+		-- Delete the "pwmgr" global variable
+		pwmgr = nil
+
+		-- Delete the dialogs
+		this:delete()
+		this.parent:delete()
+		core.start()
+		return true
+	end
+
+	if fields.pwd_back then
+		this:delete()
+		return true
+	end
+end
+
 -- Get the "Should this password be saved?" formspec
 local function get_prejoin_formspec()
 	local msg = "Should this password be saved (in plaintext)?\n"
@@ -79,19 +111,29 @@ local function get_prejoin_formspec()
 		.. "\nName: "     .. gamedata.playername
 		.. "\nPassword: " .. string.rep("*", #gamedata.password)
 
-	local formspec = "size[10,5,true]" ..
+	return "size[10,5,true]" ..
 		"label[0.5,0.5;Password manager]" ..
 		"label[0.5,1;" .. core.formspec_escape(msg) .. "]" ..
 		"button[1,4;2,1;pwd_cancel;< Cancel]" ..
-		"button[4,4;2,1;pwd_no_save;Don't save]" ..
+		"button[3,4;2,1;pwd_disable;Never]" ..
+		"button[5,4;2,1;pwd_no_save;Don't save]" ..
 		"button[7,4;2,1;pwd_save;Save >]"
-
-	return formspec
 end
 
 local function get_prejoin_buttonhandler(this, fields)
 	if fields.pwd_cancel then
 		this:delete()
+		return true
+	end
+
+	if fields.pwd_disable then
+		local dlg = dialog_create("pwmgr_confirm_disable",
+					get_disable_confirm_formspec,
+					get_disable_confirm_buttonhandler,
+					nil)
+		dlg:set_parent(this)
+		this:hide()
+		dlg:show()
 		return true
 	end
 
