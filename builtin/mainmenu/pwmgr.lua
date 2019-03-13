@@ -90,9 +90,7 @@ local function get_disable_confirm_buttonhandler(this, fields)
 		-- Delete the "pwmgr" global variable
 		pwmgr = nil
 
-		-- Delete the dialogs
-		this:delete()
-		this.parent:delete()
+		-- Continue joining
 		core.start()
 		return true
 	end
@@ -142,7 +140,6 @@ local function get_prejoin_buttonhandler(this, fields)
 	end
 
 	if fields.pwd_save or fields.pwd_no_save then
-		this:delete()
 		core.start()
 		return true
 	end
