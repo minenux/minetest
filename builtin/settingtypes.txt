@@ -722,6 +722,10 @@ client_mapblock_limit (Mapblock limit) int 5000
 #    Whether to show the client debug info (has the same effect as hitting F5).
 show_debug (Show debug info) bool false
 
+#    Enable the (beta) password manager. Note that this stores passwords in
+#    plaintext, only use it if you know what you are doing!
+pwmgr.enable (Enable INSECURE beta password manager) bool false
+
 [Server / Singleplayer]
 
 #    Name of the server, to be displayed when players join and in the serverlist.
