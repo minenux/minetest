@@ -90,6 +90,14 @@ function vector.direction(pos1, pos2)
 	return {x=x_raw, y=y_raw, z=z_raw}
 end
 
+function vector.angle(a, b)
+	local dotp = a.x * b.x + a.y * b.y + a.z * b.z
+	local cpx = a.y * b.z - a.z * b.y
+	local cpy = a.z * b.x - a.x * b.z
+	local cpz = a.x * b.y - a.y * b.x
+	local crossplen = math.sqrt(cpx ^ 2 + cpy ^ 2 + cpz ^ 2)
+	return math.atan2(crossplen, dotp)
+end
 
 function vector.add(a, b)
 	if type(b) == "table" then
