@@ -7,7 +7,10 @@
 core.chatcommands = core.registered_chatcommands -- BACKWARDS COMPATIBILITY
 
 core.register_on_chat_message(function(name, message)
-	if message:sub(1,1) ~= "/" then
+	if message:find("[\r\n]") then
+		core.chat_send_player(name, "You cannot use newlines in chat messages.")
+		return true
+	elseif message:sub(1,1) ~= "/" then
 		return
 	end
 

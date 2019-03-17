@@ -268,3 +268,20 @@ end
 function core.cancel_shutdown_requests()
 	core.request_shutdown("", false, -1)
 end
+
+-- Enforce security of logs (if cloaking hasn't already done so)
+core.after(0, function()
+	if core.global_exists("cloaking") and cloaking.hide_player then return end
+
+	local log = core.log
+	function core.log(level, text)
+		level = level:gsub("[\r\n]", " ")
+		if text then
+			text  = text:gsub("[\r\n]", " ")
+		else
+			text  = level
+			level = "none"
+		end
+		return log(level, text)
+	end
+end)
