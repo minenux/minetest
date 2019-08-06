@@ -7,6 +7,19 @@
     </h1>
 </div>
 
+Notice
+------
+
+This is a fork of an outdated version of Minetest (0.4.17.1) to add features
+and bugfixes from 5.0.0 before 5.0.0 was officially released and most servers
+were still on 0.4.17.1. Please only use this if you *have* to connect to
+legacy servers, otherwise I strongly recommend using the official and more
+stable [Minetest](https://github.com/minetest/minetest).
+
+
+Old description
+---------------
+
 A [Minetest](https://github.com/minetest/minetest) fork with backported features
 and bugfixes from 5.0.0.
 

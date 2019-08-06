@@ -49,11 +49,13 @@ back_to_devel() {
 
 	sed -i -re 's/^set\(DEVELOPMENT_BUILD FALSE\)$/set(DEVELOPMENT_BUILD TRUE)/' CMakeLists.txt
 
-	sed -i -re "s/^set\(VERSION_MAJOR [0-9]+\)$/set(VERSION_MAJOR $NEXT_VERSION_MAJOR)/" CMakeLists.txt
+	sed -i -re "s/^set\(VERSION_MAJOR [0-9]+\)$/set(VERSION_MAJOR 0)/" CMakeLists.txt
 
-	sed -i -re "s/^set\(VERSION_MINOR [0-9]+\)$/set(VERSION_MINOR $NEXT_VERSION_MINOR)/" CMakeLists.txt
+	sed -i -re "s/^set\(VERSION_MINOR [0-9]+\)$/set(VERSION_MINOR $NEXT_VERSION_MAJOR)/" CMakeLists.txt
 
-	sed -i -re "s/^set\(VERSION_PATCH [0-9]+\)$/set(VERSION_PATCH $NEXT_VERSION_PATCH)/" CMakeLists.txt
+	sed -i -re "s/^set\(VERSION_PATCH [0-9]+\)$/set(VERSION_PATCH $NEXT_VERSION_MINOR)/" CMakeLists.txt
+
+	sed -i -re "s/^set\(VERSION_TWEAK [0-9]+\)$/set(VERSION_TWEAK $NEXT_VERSION_PATCH)/" CMakeLists.txt
 
 	sed -i -re "1s/[0-9]+\.[0-9]+\.[0-9]+/$NEXT_VERSION/g" doc/menu_lua_api.txt
 
