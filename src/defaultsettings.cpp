@@ -31,7 +31,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("language", "");
 	settings->setDefault("name", "");
 	settings->setDefault("bind_address", "");
-	settings->setDefault("serverlist_url", "servers.edgy1.net");
+	settings->setDefault("serverlist_url", "servers.minetest.net");
 
 	// Client
 	settings->setDefault("address", "");
