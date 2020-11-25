@@ -1,8 +1,5 @@
 <div align="center">
     <h1>
-        <img src="https://gitlab.com/luk3yx/minetest/raw/master/misc/minetest.svg"
-            width="128" alt=" " />
-        <br/>
         minetest-luk3yx-4
     </h1>
 </div>
@@ -10,11 +7,11 @@
 Notice
 ------
 
-This is a fork of an outdated version of Minetest (0.4.17.1) to add features
-and bugfixes from 5.0.0 before 5.0.0 was officially released and most servers
-were still on 0.4.17.1. Please only use this if you *have* to connect to
-legacy servers, otherwise I strongly recommend using the official and more
-stable [Minetest](https://github.com/minetest/minetest).
+This is a mostly unmaintained fork of an outdated version of Minetest
+(0.4.17.1) to add features and bugfixes from 5.0.0 before 5.0.0 was officially
+released and most servers were still on 0.4.17.1. Please only use this if you
+*have* to connect to legacy servers, otherwise I strongly recommend using the
+official and more stable [Minetest](https://github.com/minetest/minetest).
 
 
 Old description
