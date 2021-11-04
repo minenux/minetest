@@ -210,12 +210,14 @@ find_package(Lua REQUIRED)
 # JsonCPP doesn't compile well on GCC 4.8
 if(NOT ENABLE_SYSTEM_JSONCPP)
 	set(GCC_MINIMUM_VERSION "4.9")
+else()
+	set(GCC_MINIMUM_VERSION "4.7")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "${GCC_MINIMUM_VERSION}")
 		message(FATAL_ERROR "Insufficient gcc version, found ${CMAKE_CXX_COMPILER_VERSION}. "
-			"Version ${GCC_MINIMUM_VERSION} or higher is required.")
+			"Version ${GCC_MINIMUM_VERSION} or higher is required if you enabled JsonCPP build in.")
 	endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "${CLANG_MINIMUM_VERSION}")
@@ -232,12 +234,12 @@ add_subdirectory(src)
 
 # CPack
 
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An InfiniMiner/Minecraft inspired game")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An InfiniMiner game")
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
 set(CPACK_PACKAGE_VENDOR "celeron55")
-set(CPACK_PACKAGE_CONTACT "Perttu Ahola <celeron55@gmail.com>")
+set(CPACK_PACKAGE_CONTACT "Perttu Ahola (celeron55)")
 
 if(WIN32)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)

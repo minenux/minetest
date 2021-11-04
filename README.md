@@ -1,35 +1,36 @@
-<div align="center">
-    <h1>
-        minetest-luk3yx-4
-    </h1>
-</div>
+# minetest-engine-luk3yx
 
-Notice
-------
-
-This is a mostly unmaintained fork of an outdated version of Minetest
+This is a mostly unmaintained fork of an older up to dated version of Minetest
 (0.4.17.1) to add features and bugfixes from 5.0.0 before 5.0.0 was officially
-released and most servers were still on 0.4.17.1. Please only use this if you
-*have* to connect to legacy servers, otherwise I strongly recommend using the
-official and more stable [Minetest](https://github.com/minetest/minetest).
+released and most servers were still on 0.4.17.1. Its pretty stable and know to work, 
+but isnot official also is not bug free, does not recieve support and is only for 
+modern OS's that cannot connect to older servers 0.4 versions.
 
 
-Old description
+description
 ---------------
 
-A [Minetest](https://github.com/minetest/minetest) fork with backported features
-and bugfixes from 5.0.0.
+This repository is only as historical reference. A minetest 0.4.18.3 version is  build 
+from this sources, mostly most of the 5.0.0 improvements were added! any mod from 
+the 5.X series will be compatible with this.
 
-Minetest is copyright © 2010-2019 by Perttu Ahola <celeron55@gmail.com>
+A [Minetest](https://github.com/minetest/minetest) fork with backported features
+and bugfixes from 5.0.0. Most of them documented here: https://github.com/minetest/minetest/pull/6746/commits 
+the sources were forked as new repo from https://github.com/luk3yx/minetest
+
+Minetest is copyright © 2010-2019 by Perttu Ahola (know as celeron55)
 and contributors (see source file comments and the [version control log])
 
-[version control log]: https://github.com/luk3yx/minetest/graphs/contributors
+[version control log]: https://github.com/minetest/minetest/graphs/contributors
 
 In case you downloaded the source code:
 ---------------------------------------
-If you downloaded the Minetest Engine source code in which this file is
-contained, you probably want to download the [Minetest Game fork](https://github.com/luk3yx/minetest_game/)
-(or the [original](https://github.com/minetest/minetest_game))project too. See its README.txt for more information.
+
+If you downloaded this Minetest Engine source code in which this file is
+contained, you probably want to download the Minetest game backported (check minenux project) 
+or the original (https://github.com/minetest/minetest_game/tree/stable-0.4) too.
+
+In any case, is you use this sources must also use the backported one or the mientest minenux game for 0.4.
 
 Table of Contents
 ------------------
@@ -46,12 +47,12 @@ Table of Contents
 
 Further documentation (on "stock" Minetest)
 ----------------------
-- Website: http://minetest.net/
-- Wiki: http://wiki.minetest.net/
-- Developer wiki: http://dev.minetest.net/
-- Forum: http://forum.minetest.net/
-- GitHub: https://github.com/minetest/minetest/
-- [doc/](doc/) directory of source distribution
+- Website: http://minetest.net/ DONT ASK FOR THIS SOURCES THERE!
+- Wiki: http://wiki.minetest.net/ PRETTY BASED ON LAST SOURCES
+- Developer wiki: http://dev.minetest.net/ DONT ASK FOR THIS SOURCES THERE!
+- Forum: http://forum.minetest.net/ DONT ASK FOR THIS SOURCES THERE!
+- GitHub: https://github.com/minetest/minetest/ DONT ASK FOR THIS SOURCES THERE!
+- [doc/](doc/) directory of source distribution PRETTY BASED ON LAST SOURCES
 
 Default controls
 ----------------
@@ -98,23 +99,20 @@ Some can be changed in the key config dialog in the settings tab.
 
 Paths
 -----
+
 Locations:
 
-* `bin`   - Compiled binaries
+* `bin`   - Compiled binaries to execute program
 * `share` - Distributed read-only data
 * `user`  - User-created modifiable data
 
 Where each location is on each platform:
 
-* Windows .zip / RUN_IN_PLACE source:
+* Windows:
     * bin   = `bin`
     * share = `.`
     * user  = `.`
-* Windows installed:
-    * $bin   = `C:\Program Files\Minetest\bin (Depends on the install location)`
-    * $share = `C:\Program Files\Minetest (Depends on the install location)`
-    * $user  = `%Appdata%\Minetest`
-* Linux installed:
+* Linux:
     * `bin`   = `/usr/bin`
     * `share` = `/usr/share/minetest`
     * `user`  = `~/.minetest`
@@ -123,17 +121,18 @@ Where each location is on each platform:
     * `share` = `Contents/Resources`
     * `user`  = `Contents/User OR ~/Library/Application Support/minetest`
 
-Worlds can be found as separate folders in: `user/worlds/`
+Worlds can be found as separate directory in: `user/worlds/`
 
 Configuration file:
 -------------------
 - Default location:
+    `/etc/minetest/minetest.conf`
+- For `RUN_IN_PLACE` It is created by Minetest at first run:
     `user/minetest.conf`
-- It is created by Minetest when it is ran the first time.
 - A specific file can be specified on the command line:
     `--config <path-to-file>`
 - A run-in-place build will look for the configuration file in
-    `location_of_exe/../minetest.conf` and also `location_of_exe/../../minetest.conf`
+    `bin/../minetest.conf` and also `bin/../../minetest.conf`
 
 Command-line options:
 ---------------------
@@ -141,39 +140,22 @@ Command-line options:
 
 Compiling
 ---------
-### Compiling on GNU/Linux
+
+This compilation requires GIT.
 
 #### Dependencies
 
-| Dependency | Version | Commentary |
-|------------|---------|------------|
-| GCC        | 4.9+    | Can be replaced with Clang 3.4+ |
-| CMake      | 2.6+    |            |
-| Irrlicht   | 1.7.3+  |            |
-| SQLite3    | 3.0+    |            |
-| LuaJIT     | 2.0+    | Bundled Lua 5.1 is used if not present |
-| GMP        | 5.0.0+  | Bundled mini-GMP is used if not present |
-| JsonCPP    | 1.0.0+  | Bundled JsonCPP is used if not present |
-
-For Debian/Ubuntu:
-
-    sudo apt install build-essential libirrlicht-dev cmake libbz2-dev libpng-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev
-
-For Fedora users:
-
-    sudo dnf install make automake gcc gcc-c++ kernel-devel cmake libcurl-devel openal-soft-devel libvorbis-devel libXxf86vm-devel libogg-devel freetype-devel mesa-libGL-devel zlib-devel jsoncpp-devel irrlicht-devel bzip2-libs gmp-devel sqlite-devel luajit-devel leveldb-devel ncurses-devel doxygen spatialindex-devel bzip2-devel
+| Dependency | Version | Original | Commentary |
+|------------|---------|----------|------------|
+| GCC        | 4.9+    | 4.5+     | Can be replaced with Clang 3.4+ |
+| CMake      | 2.6+    | 2.6+     |            |
+| Irrlicht   | 1.8.1+  | 1.7.3+   |            |
+| SQLite3    | 3.0+    | 3.0+     |            |
+| LuaJIT     | 2.0+    | 2.0+     | Bundled Lua 5.1 is used if not present |
+| GMP        | 5.0.0+  | 4.9.9    | Bundled mini-GMP is used if not present |
+| JsonCPP    | 1.0.0+  | 1.0.0+   | Bundled JsonCPP is used if not present |
 
 #### Download
-
-You can install Git for easily keeping your copy up to date.
-If you don’t want Git, read below on how to get the source without Git.  
-This is an example for installing Git on Debian/Ubuntu:
-
-    sudo apt install git
-
-For Fedora users:
-
-    sudo dnf install git
 
 Download source (this is the URL to the latest of source repository, which might not work at all times) using Git:
 
@@ -303,175 +285,6 @@ Library specific options:
     ZLIB_INCLUDE_DIR                - Directory that contains zlib.h
     ZLIB_LIBRARY                    - Path to libz.a/libz.so/zlibwapi.lib
 
-### Compiling on Windows
-
-* This section is outdated. In addition to what is described here:
-  * In addition to minetest, you need to download [minetest_game](https://github.com/luk3yx/minetest_game).
-  * If you wish to have sound support, you need libogg, libvorbis and libopenal
-
-* You need:
-	* CMake:
-		http://www.cmake.org/cmake/resources/software.html
-	* A compiler
-		* MinGW: http://www.mingw.org/
-		* or Visual Studio: http://msdn.microsoft.com/en-us/vstudio/default
-	* Irrlicht SDK 1.7:
-		http://irrlicht.sourceforge.net/downloads.html
-	* Zlib headers (zlib125.zip)
-		http://www.winimage.com/zLibDll/index.html
-	* Zlib library (zlibwapi.lib and zlibwapi.dll from zlib125dll.zip):
-		http://www.winimage.com/zLibDll/index.html
-	* SQLite3 headers and library
-		https://www.sqlite.org/download.html
-	* Optional: gettext library and tools:
-		http://gnuwin32.sourceforge.net/downlinks/gettext.php
-		* This is used for other UI languages. Feel free to leave it out.
-	* And, of course, Minetest:
-		http://minetest.net/download
-* Steps:
-	* Select a directory called DIR hereafter in which you will operate.
-	* Make sure you have CMake and a compiler installed.
-	* Download all the other stuff to DIR and extract them into there.
-	  ("extract here", not "extract to packagename/")
-	    * NOTE: zlib125dll.zip needs to be extracted into zlib125dll
-	    * NOTE: You need to extract sqlite3.h & sqlite3ext.h from the SQLite 3
-	      source and sqlite3.dll & sqlite3.def from the SQLite 3 precompiled
-	      binaries into "sqlite3" directory, and generate sqlite3.lib using
-	      command "LIB /DEF:sqlite3.def /OUT:sqlite3.lib"
-	* All those packages contain a nice base directory in them, which
-	  should end up being the direct subdirectories of DIR.
-	* You will end up with a directory structure like this (+=dir, -=file):
-	-----------------
-	+ DIR
-		* zlib-1.2.5.tar.gz
-		* zlib125dll.zip
-		* irrlicht-1.8.3.zip
-		* sqlite-amalgamation-3130000.zip (SQLite3 headers)
-		* sqlite-dll-win32-x86-3130000.zip (SQLite3 library for 32bit system)
-		* 110214175330.zip (or whatever, this is the minetest source)
-		+ zlib-1.2.5
-			* zlib.h
-			+ win32
-			...
-		+ zlib125dll
-			* readme.txt
-			+ dll32
-			...
-		+ irrlicht-1.8.3
-			+ lib
-			+ include
-			...
-		+ sqlite3
-			sqlite3.h
-			sqlite3ext.h
-			sqlite3.lib
-			sqlite3.dll
-		+ gettext (optional)
-			+bin
-			+include
-			+lib
-		+ minetest
-			+ src
-			+ doc
-			* CMakeLists.txt
-			...
-	-----------------
-	* Start up the CMake GUI
-	* Select "Browse Source..." and select DIR/minetest
-	* Now, if using MSVC:
-		* Select "Browse Build..." and select DIR/minetest-build
-	* Else if using MinGW:
-		* Select "Browse Build..." and select DIR/minetest
-	* Select "Configure"
-	* Select your compiler
-	* It will warn about missing stuff, ignore that at this point. (later don't)
-	* Make sure the configuration is as follows
-	  (note that the versions may differ for you):
-
-                BUILD_CLIENT             [X]
-                BUILD_SERVER             [ ]
-                CMAKE_BUILD_TYPE         Release
-                CMAKE_INSTALL_PREFIX     DIR/minetest-install
-                IRRLICHT_SOURCE_DIR      DIR/irrlicht-1.8.3
-                RUN_IN_PLACE             [X]
-                WARN_ALL                 [ ]
-                ZLIB_DLL                 DIR/zlib125dll/dll32/zlibwapi.dll
-                ZLIB_INCLUDE_DIR         DIR/zlib-1.2.5
-                ZLIB_LIBRARIES           DIR/zlib125dll/dll32/zlibwapi.lib
-                GETTEXT_BIN_DIR          DIR/gettext/bin
-                GETTEXT_INCLUDE_DIR      DIR/gettext/include
-                GETTEXT_LIBRARIES        DIR/gettext/lib/intl.lib
-                GETTEXT_MSGFMT           DIR/gettext/bin/msgfmt
-
-	* If CMake complains it couldn't find SQLITE3, choose "Advanced" box on the
-	  right top corner, then specify the location of SQLITE3_INCLUDE_DIR and
-	  SQLITE3_LIBRARY manually.
-	* If you want to build 64-bit minetest, you will need to build 64-bit version
-	  of irrlicht engine manually, as only 32-bit pre-built library is provided.
-	* Hit "Configure"
-	* Hit "Configure" once again 8)
-	* If something is still coloured red, you have a problem.
-	* Hit "Generate"
-	If using MSVC:
-		* Open the generated minetest.sln
-		* The project defaults to the "Debug" configuration. Make very sure to
-		  select "Release", unless you want to debug some stuff (it's slower
-		  and might not even work at all)
-		* Build the ALL_BUILD project
-		* Build the INSTALL project
-		* You should now have a working game with the executable in
-			DIR/minetest-install/bin/minetest.exe
-		* Additionally you may create a zip package by building the PACKAGE
-		  project.
-	If using MinGW:
-		* Using the command line, browse to the build directory and run 'make'
-		  (or mingw32-make or whatever it happens to be)
-		* You may need to copy some of the downloaded DLLs into bin/, see what
-		  running the produced executable tells you it doesn't have.
-		* You should now have a working game with the executable in
-			DIR/minetest/bin/minetest.exe
-
-### Bat script to build Windows releases of Minetest
-
-This is how we build Windows releases.
-
-    set sourcedir=%CD%
-    set installpath="C:\tmp\minetest_install"
-    set irrlichtpath="C:\tmp\irrlicht-1.7.2"
-
-    set builddir=%sourcedir%\bvc10
-    mkdir %builddir%
-    pushd %builddir%
-    cmake %sourcedir% -G "Visual Studio 10" -DIRRLICHT_SOURCE_DIR=%irrlichtpath% -DRUN_IN_PLACE=TRUE -DCMAKE_INSTALL_PREFIX=%installpath%
-    if %errorlevel% neq 0 goto fail
-    "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Release
-    if %errorlevel% neq 0 goto fail
-    "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" INSTALL.vcxproj /p:Configuration=Release
-    if %errorlevel% neq 0 goto fail
-    "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" PACKAGE.vcxproj /p:Configuration=Release
-    if %errorlevel% neq 0 goto fail
-    popd
-    echo Finished.
-    exit /b 0
-
-    :fail
-    popd
-    echo Failed.
-    exit /b 1
-
-### Windows Installer using WIX Toolset
-
-Requirements:
-* Visual Studio 2017
-* Wix Toolset
-
-In Visual Studio 2017 Installer select "Optional Features" -> "Wix Toolset"
-
-Build the binaries like described above, but make sure you unselect "RUN_IN_PLACE".
-
-Open the generated Project file with VS. Right click "PACKAGE" and choose "Generate".
-It may take some minutes to generate the installer.
-
 
 Docker ("stock" Minetest)
 ------
@@ -502,8 +315,8 @@ You can also host your minetest server inside a Kubernetes cluster. See our exam
 Version scheme
 --------------
 
-Minetest uses `major.minor.patch` since 5.0.0-dev,
-more information [here](https://github.com/minetest/minetest/#version-scheme).
+Minetest uses `major.minor.patch` since 5.0.0-dev, but minetest-engine-luk3yx 
+currently uses `0.4.major.minor`, as was on minetest 0.4.
 
-minetest-luk3yx-4 currently uses `0.4.major.minor`, however that will probably
-change (and `major` releases do not necessarily contain breaking changes).
+Minetest from MinenuX VenenuX project uses `mayor.minor.patch` as 0.4 becomes MT4.
+
