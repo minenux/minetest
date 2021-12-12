@@ -1,45 +1,43 @@
 # minetest-engine-luk3yx
 
-This is a mostly unmaintained fork of an older up to dated version of Minetest
-(0.4.17.1) to add features and bugfixes from 5.0.0 before 5.0.0 was officially
-released and most servers were still on 0.4.17.1. Its pretty stable and know to work, 
-but isnot official also is not bug free, does not recieve support and is only for 
-modern OS's that cannot connect to older servers 0.4 versions.
-
+This is a minetest 0.4 with includes features from 5.0.0 branch, like new api and 
+loading of mods up to date.
 
 description
 ---------------
 
-This repository is only as historical reference. A minetest 0.4.18.3 version is  build 
-from this sources, mostly most of the 5.0.0 improvements were added! any mod from 
+This repository is a minetest 0.4.18.3 version; it build from this sources, mostly 
+most of the 5.0.0 improvements were added! any mod from 
 the 5.X series will be compatible with this.
 
 A [Minetest](https://github.com/minetest/minetest) fork with backported features
 and bugfixes from 5.0.0. Most of them documented here: https://github.com/minetest/minetest/pull/6746/commits 
-the sources were forked as new repo from https://github.com/luk3yx/minetest
-
-Minetest is copyright © 2010-2019 by Perttu Ahola (know as celeron55)
-and contributors (see source file comments and the [version control log])
-
-[version control log]: https://github.com/minetest/minetest/graphs/contributors
+the sources were forked as new repo from https://github.com/luk3yx/minetest 
+of the stable-0.4-backport branch.
 
 In case you downloaded the source code:
 ---------------------------------------
 
-If you downloaded this Minetest Engine source code in which this file is
-contained, you probably want to download the Minetest game backported (check minenux project) 
-or the original (https://github.com/minetest/minetest_game/tree/stable-0.4) too.
+To generated a program from this files you need two things:
 
-In any case, is you use this sources must also use the backported one or the mientest minenux game for 0.4.
+1. Compile this sources, check the section [Compiling](#compiling) of this file.
+2. Download the gameid for this folk, chek the section [Engine vs Gameid](#engine-vs-gameid)
+
+This is a mostly unmaintained fork of an older up to dated version of Minetest
+(0.4.17.1) to add features and bugfixes from 5.0.0 before 5.0.0 was officially
+released and most servers were still on 0.4.17.1. Its pretty stable and know to work, 
+but is not official also is not bug free, does not have support and is only for 
+those OS's that cannot connect to older servers 0.4 versions or cannot build a 5.X version.
 
 Table of Contents
 ------------------
 
 1. [Further Documentation](#further-documentation)
-2. [Default Controls](#default-controls)
-3. [Paths](#paths)
+1. [Engine vs Gameid](#engine-vs-gameid)
 4. [Configuration File](#configuration-file)
 5. [Command-line Options](#command-line-options)
+3. [Paths](#paths)
+2. [Default Controls](#default-controls)
 6. [Compiling](#compiling)
 7. [Docker](#docker-stock-minetest)
 8. [Version Scheme](#version-scheme)
@@ -52,7 +50,70 @@ Further documentation (on "stock" Minetest)
 - Developer wiki: http://dev.minetest.net/ DONT ASK FOR THIS SOURCES THERE!
 - Forum: http://forum.minetest.net/ DONT ASK FOR THIS SOURCES THERE!
 - GitHub: https://github.com/minetest/minetest/ DONT ASK FOR THIS SOURCES THERE!
-- [doc/](doc/) directory of source distribution PRETTY BASED ON LAST SOURCES
+- Minenux: https://codeberg.org/minenux Similar project DONT ASK TO SUPPORT THERE!
+
+Engine vs Gameid
+----------------
+
+Minetest is a game, is composed of two artifact, the engine (the program 
+that is generated from this sources) and the Gameid (the data files and logic 
+for play minetest).
+
+This sources and project only generated a program when [compiling](#compiling), 
+each release of a minetest engine needs their corresponding "`minetest_game`" .. for this 
+special sources you must those only **compatibles like those**:
+
+* minetest game 0.4.17 from https://github.com/minetest/minetest_game/tree/stable-0.4
+* minetest improved 0.4.17 from https://codeberg.org/minenux/minetest-game-minetest/src/branch/stable-0.4
+* minetest luk3yx 0.4.18 from https://gitlab.com/minenux/minetest-game-luk3yx/-/tree/stable-4.1
+* minetest4 4.0.18 minenux from https://codeberg.org/minenux/minetest-game-minetest/src/branch/stable-4.0
+
+Configuration files:
+-------------------
+
+Its named `minetest.conf` and depending of the type of build of the running 
+program minetest (the `RUN_IN_PLACE`, check [compiling](#compiling) section), 
+the loction are at:
+
+- Default location if you compiles as integrated in the OS:
+    `/etc/minetest/minetest.conf` or `<DESTDIR>/etc/minetest/minetest.conf`
+- Otherwise For `RUN_IN_PLACE` It is created by Minetest at first run at:
+    `user/minetest.conf` or `bin/../minetest.conf` and also `bin/../../minetest.conf`
+- A specific file can be specified on the command line:
+    `--config <path-to-file>`
+
+Command-line options:
+---------------------
+
+Use `--help` and also consult the manpage at [doc/minetest.6](doc/minetest.6) 
+or run `man minetest` if you have installed the program game (either or not of the gameid)
+
+Paths
+-----
+
+Locations:
+
+* `bin`   - Compiled binaries to execute program
+* `share` - Distributed read-only data
+* `user`  - User-created modifiable data
+
+Where each location is on each platform:
+
+* Other OS's or **with** `RUN_IN_PLACE` build of the program:
+    * bin   = `bin`
+    * share = `.`
+    * user  = `.`
+    * worlds = `worlds`
+* Linux but **without** `RUN_IN_PLACE` build of the program:
+    * `bin`   = `/usr/bin`
+    * `share` = `/usr/share/minetest`
+    * `user`  = `~/.minetest`
+    * `worlds` = `~/.minetest/worlds/`
+* MacOS using Brew builds:
+    * `bin`   = `Contents/MacOS`
+    * `share` = `Contents/Resources`
+    * `user`  = `Contents/User` or `~/Library/Application Support/minetest`
+    * `worlds` = `~/Library/Application Support/minetest/worlds`
 
 Default controls
 ----------------
@@ -97,58 +158,17 @@ Some can be changed in the key config dialog in the settings tab.
 | F10                           | Show/hide console                                              |
 | F12                           | Take screenshot                                                |
 
-Paths
------
-
-Locations:
-
-* `bin`   - Compiled binaries to execute program
-* `share` - Distributed read-only data
-* `user`  - User-created modifiable data
-
-Where each location is on each platform:
-
-* Windows:
-    * bin   = `bin`
-    * share = `.`
-    * user  = `.`
-* Linux:
-    * `bin`   = `/usr/bin`
-    * `share` = `/usr/share/minetest`
-    * `user`  = `~/.minetest`
-* macOS:
-    * `bin`   = `Contents/MacOS`
-    * `share` = `Contents/Resources`
-    * `user`  = `Contents/User OR ~/Library/Application Support/minetest`
-
-Worlds can be found as separate directory in: `user/worlds/`
-
-Configuration file:
--------------------
-- Default location:
-    `/etc/minetest/minetest.conf`
-- For `RUN_IN_PLACE` It is created by Minetest at first run:
-    `user/minetest.conf`
-- A specific file can be specified on the command line:
-    `--config <path-to-file>`
-- A run-in-place build will look for the configuration file in
-    `bin/../minetest.conf` and also `bin/../../minetest.conf`
-
-Command-line options:
----------------------
-- Use `--help`
-
 Compiling
 ---------
 
-This compilation requires GIT.
+If you used directly this repository, so then compilation requires GIT installed and network available.
 
 #### Dependencies
 
 | Dependency | Version | Original | Commentary |
 |------------|---------|----------|------------|
 | GCC        | 4.9+    | 4.5+     | Can be replaced with Clang 3.4+ |
-| CMake      | 2.6+    | 2.6+     |            |
+| CMake      | 3.1+    | 2.6+     |            |
 | Irrlicht   | 1.8.1+  | 1.7.3+   |            |
 | SQLite3    | 3.0+    | 3.0+     |            |
 | LuaJIT     | 2.0+    | 2.0+     | Bundled Lua 5.1 is used if not present |
@@ -157,39 +177,34 @@ This compilation requires GIT.
 
 #### Download
 
-Download source (this is the URL to the latest of source repository, which might not work at all times) using Git:
+This is an archived project so there's only one way to download sources, by git usage, 
+download source, by example this is original at https://github.com/luk3yx/minetest.git and
+download minetest_game (otherwise only the "Minimal development test" game is available), 
+of course if you already have the sources downloaded you can bypass and skip these steps:
 
-    git clone --depth 1 https://github.com/luk3yx/minetest.git
-    cd minetest
-
-Download minetest_game (otherwise only the "Minimal development test" game is available) using Git:
-
-    git clone --depth 1 https://github.com/luk3yx/minetest_game.git games/minetest_game
-
-Download source, without using Git:
-
-    wget https://github.com/luk3yx/minetest/archive/master.tar.gz
-    tar xf master.tar.gz
-    cd minetest-master
-
-Download minetest_game, without using Git:
-
-    cd games/
-    wget https://github.com/luk3yx/minetest_game/archive/master.tar.gz
-    tar xf master.tar.gz
-    mv minetest_game-master minetest_game
-    cd ..
+```
+cd ~
+mkdir -p ~/Devel
+cd ~/Devel
+git clone --depth 1 https://github.com/minenux/minetest-engine-luk3yx
+cd ~/Devel/minetest
+git clone --depth 1 https://github.com/luk3yx/minetest_game.git games/minetest_game
+```
 
 #### Build
 
-Build a version that runs directly from the source directory:
+As we said there's two buid types, the "RUN_IN_PLACE" and the integrated into the OS, 
+so to build a version that runs directly from the source directory or any DESTDIR directory 
+where the binary compiled program minetest are.. just do:
 
     cmake . -DRUN_IN_PLACE=TRUE
     make -j <number of processors>
 
-Run it:
+And later you can run it (RUN_IN_PLACE mode) as:
 
     ./bin/minetest
+
+For other ways to compile, remove the RUN_IN_PLACE set and check these others options:
 
 - Use `cmake . -LH` to see all CMake options and their current state
 - If you want to install it system-wide (or are making a distribution package),
@@ -288,7 +303,9 @@ Library specific options:
 
 Docker ("stock" Minetest)
 ------
-Minetest provides Minetest server docker images using the Gitlab mirror registry.
+
+Original oficial Minetest provides Minetest server docker images using the Gitlab mirror registry, but
+today those are not availables.. 
 
 Images are built on each commit and available using the following tag scheme:
 
@@ -297,8 +314,7 @@ Images are built on each commit and available using the following tag scheme:
 * `registry.gitlab.com/minetest/minetest/server:<commit-id>` (current commit id)
 
 If you want to test it on a docker server, you can easily run:
-
-	sudo docker run registry.gitlab.com/minetest/minetest/server:<docker tag>
+`docker run registry.gitlab.com/minetest/minetest/server:<docker tag>`
 
 If you want to use it in a production environment you should use volumes bound to the docker host
 to persist data and modify the configuration:
@@ -306,8 +322,6 @@ to persist data and modify the configuration:
 	sudo docker create -v /home/minetest/data/:/var/lib/minetest/ -v /home/minetest/conf/:/etc/minetest/ registry.gitlab.com/minetest/minetest/server:master
 
 Data will be written to `/home/minetest/data` on the host, and configuration will be read from `/home/minetest/conf/minetest.conf`.
-
-Note: If you don't understand the previous commands, please read the official Docker documentation before use.
 
 You can also host your minetest server inside a Kubernetes cluster. See our example implementation in `misc/kubernetes.yml`.
 
@@ -320,3 +334,9 @@ currently uses `0.4.major.minor`, as was on minetest 0.4.
 
 Minetest from MinenuX VenenuX project uses `mayor.minor.patch` as 0.4 becomes MT4.
 
+## LICENSE
+
+Minetest is copyright © 2010-2019 by Perttu Ahola (know as celeron55)
+and contributors (see source file comments and the [version control log])
+
+[Contributions]: https://github.com/minetest/minetest/graphs/contributors
